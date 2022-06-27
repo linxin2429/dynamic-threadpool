@@ -21,8 +21,8 @@ public final class RowMapperManager {
         @Override
         public ConfigAllInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
             ConfigAllInfo configAllInfo = new ConfigAllInfo();
-            configAllInfo.setDataId(rs.getString("data_id"));
-            configAllInfo.setGroupId(rs.getString("group_id"));
+            //configAllInfo.setDataId(rs.getString("data_id"));
+            //configAllInfo.setGroupId(rs.getString("group_id"));
             configAllInfo.setContent(rs.getString("content"));
             configAllInfo.setMd5(rs.getString("md5"));
             configAllInfo.setTenant(rs.getString("tenant_id"));

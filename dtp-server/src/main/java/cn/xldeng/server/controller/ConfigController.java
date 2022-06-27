@@ -27,11 +27,11 @@ public class ConfigController {
 
     @GetMapping
     public ConfigInfoBase detailConfigInfo(
-            @RequestParam("tdId") String tdId,
+            @RequestParam("tpId") String tpId,
             @RequestParam("itemId") String itemId,
             @RequestParam(value = "tenant", required = false, defaultValue = "") String tenant
     ) {
-        return configService.findConfigAllInfo(tdId, itemId, tenant);
+        return configService.findConfigAllInfo(tpId, itemId, tenant);
     }
 
     @SneakyThrows
