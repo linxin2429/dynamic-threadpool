@@ -5,7 +5,6 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -16,7 +15,6 @@ import java.util.Map;
  * @author: dengxinlin
  * @create: 2022-06-27 07:35
  */
-@Component
 @Slf4j
 public class HttpClientUtil {
 

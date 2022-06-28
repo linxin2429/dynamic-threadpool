@@ -27,8 +27,8 @@ public class DynamicThreadPoolWrap {
      *
      * @param threadPoolId
      */
-    public DynamicThreadPoolWrap(String threadPoolId) {
-        this.tpId = threadPoolId;
+    public DynamicThreadPoolWrap(String tenant, String itemId, String threadPoolId) {
+        this(tenant, itemId, threadPoolId, null);
     }
 
     /**
@@ -37,7 +37,9 @@ public class DynamicThreadPoolWrap {
      * @param threadPoolId
      * @param threadPoolExecutor
      */
-    public DynamicThreadPoolWrap(String threadPoolId, ThreadPoolExecutor threadPoolExecutor) {
+    public DynamicThreadPoolWrap(String tenant, String itemId, String threadPoolId, ThreadPoolExecutor threadPoolExecutor) {
+        this.tenant = tenant;
+        this.itemId = itemId;
         this.tpId = threadPoolId;
         this.pool = threadPoolExecutor;
     }
@@ -60,6 +62,7 @@ public class DynamicThreadPoolWrap {
     public Future<?> submit(Runnable task) {
         return pool.submit(task);
     }
+
     /**
      * 提交任务
      *
