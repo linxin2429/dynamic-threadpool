@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=cn.xldeng.starter.config.CommonConfiguration,\
+  cn.xldeng.starter.config.OkHttpClientConfig
