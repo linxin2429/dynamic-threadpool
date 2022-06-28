@@ -27,6 +27,7 @@
         <module>dtp-spring-boot-starter</module>
         <module>dtp-server</module>
         <module>dtp-example</module>
+        <module>common</module>
     </modules>
 
     <dependencyManagement>
