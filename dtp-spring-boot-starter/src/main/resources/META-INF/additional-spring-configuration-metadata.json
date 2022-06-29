@@ -8,12 +8,12 @@
     },
     {
       "name": "spring.dynamic.thread-pool.enabled",
-      "type": "java.lang.Boolean",
-      "defaultValue": false,
+      "type": "java.lang.String",
+      "defaultValue": "false",
       "description": "dynamic thread-pool enabled."
     },
     {
-      "name": "spring.dynamic.thread-pool.tenant",
+      "name": "spring.dynamic.thread-pool.namespace",
       "type": "java.lang.String",
       "defaultValue": "public",
       "description": "dynamic thread-pool namespace."

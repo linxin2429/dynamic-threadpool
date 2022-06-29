@@ -1,5 +1,6 @@
 package cn.xldeng.starter.operation;
 
+import cn.xldeng.starter.config.DynamicThreadPoolProperties;
 import cn.xldeng.starter.core.ConfigService;
 import cn.xldeng.starter.listener.Listener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,12 @@ public class ThreadPoolOperation {
     @Autowired
     private ConfigService configService;
 
+    private final DynamicThreadPoolProperties properties;
+
+    public ThreadPoolOperation(DynamicThreadPoolProperties properties) {
+        this.properties = properties;
+    }
+
     public Listener subscribeConfig(String tpId, Executor executor, ThreadPoolSubscribeCallback threadPoolSubscribeCallback) {
         Listener listener = new Listener() {
             @Override
@@ -28,7 +35,7 @@ public class ThreadPoolOperation {
                 threadPoolSubscribeCallback.callback(configInfo);
             }
         };
-        configService.addListener(tpId, listener);
+        configService.addListener(properties.getNamespace(), properties.getItemId(), tpId, listener);
         return listener;
     }
 }

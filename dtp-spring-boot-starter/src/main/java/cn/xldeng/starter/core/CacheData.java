@@ -77,4 +77,8 @@ public class CacheData {
     public String getMd5() {
         return this.md5;
     }
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
+    }
 }

@@ -1,12 +1,18 @@
-package cn.xldeng.starter.core;
+package cn.xldeng.starter.listener;
 
+import cn.xldeng.common.web.base.Result;
 import cn.xldeng.starter.common.CommonThreadPool;
+import cn.xldeng.starter.common.Constants;
 import cn.xldeng.starter.config.ApplicationContextHolder;
 import cn.xldeng.starter.config.DynamicThreadPoolProperties;
+import cn.xldeng.starter.core.GlobalThreadPoolManage;
 import cn.xldeng.starter.model.PoolParameterInfo;
+import cn.xldeng.starter.remote.HttpAgent;
+import cn.xldeng.starter.remote.ServerHttpAgent;
 import cn.xldeng.starter.tookit.BlockingQueueUtil;
 import cn.xldeng.starter.tookit.HttpClientUtil;
 import cn.xldeng.starter.wrap.DynamicThreadPoolWrap;
+import com.alibaba.fastjson.JSON;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 
@@ -39,13 +45,15 @@ public class ThreadPoolRunListener implements ApplicationRunner {
         Map<String, DynamicThreadPoolWrap> executorMap =
                 ApplicationContextHolder.getBeansOfType(DynamicThreadPoolWrap.class);
         executorMap.forEach((key, val) -> {
-            Map<String, Object> queryStrMap = new HashMap<>(16);
+            Map<String, String > queryStrMap = new HashMap<>(16);
             queryStrMap.put("tpId", val.getTpId());
             queryStrMap.put("itemId", dynamicThreadPoolProperties.getItemId());
-            queryStrMap.put("tenant", dynamicThreadPoolProperties.getTenant());
+            queryStrMap.put("namespace", dynamicThreadPoolProperties.getNamespace());
 
-            PoolParameterInfo ppi = httpClientUtil.restApiGet(buildUrl(), queryStrMap, PoolParameterInfo.class);
-            if (ppi != null) {
+            PoolParameterInfo ppi;
+            HttpAgent httpAgent = new ServerHttpAgent(dynamicThreadPoolProperties);
+            Result result = httpAgent.httpGet(Constants.CONFIG_CONTROLLER_PATH, null, queryStrMap, 3000L);
+            if (result.isSuccess() && (ppi = JSON.toJavaObject((JSON) result.getData(),PoolParameterInfo.class)) != null){
                 TimeUnit unit = TimeUnit.SECONDS;
                 BlockingQueue<Runnable> workQueue = BlockingQueueUtil.createBlockingQueue(ppi.getQueueType(), ppi.getCapacity());
                 ThreadPoolExecutor resultTpe = new ThreadPoolExecutor(ppi.getCoreSize(),

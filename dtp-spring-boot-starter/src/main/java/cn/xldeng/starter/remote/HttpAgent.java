@@ -1,4 +1,6 @@
-package cn.xldeng.starter.http;
+package cn.xldeng.starter.remote;
+
+import cn.xldeng.common.web.base.Result;
 
 import java.util.Map;
 
@@ -34,12 +36,11 @@ public interface HttpAgent {
      * @param path          path
      * @param headers       header
      * @param paramValues   paramValues
-     * @param encoding      encoding
      * @param readTimeoutMs readTimeoutMs
      * @return response
      */
-    String httpGet(String path, Map<String, String> headers, Map<String, String> paramValues,
-                   String encoding, long readTimeoutMs);
+    Result httpGet(String path, Map<String, String> headers, Map<String, String> paramValues,
+                   long readTimeoutMs);
 
     /**
      * 发起 Http Post 请求
@@ -47,12 +48,11 @@ public interface HttpAgent {
      * @param path          path
      * @param headers       headers
      * @param paramValues   paramValues
-     * @param encoding      encoding
      * @param readTimeoutMs readTimeoutMs
      * @return response
      */
-    String httpPost(String path, Map<String, String> headers, Map<String, String> paramValues,
-                    String encoding, long readTimeoutMs);
+    Result httpPost(String path, Map<String, String> headers, Map<String, String> paramValues,
+                    long readTimeoutMs);
 
     /**
      * 发起 Http Delete 请求
@@ -60,10 +60,9 @@ public interface HttpAgent {
      * @param path          path
      * @param headers       headers
      * @param paramValues   paramValues
-     * @param encoding      encoding
      * @param readTimeoutMs readTimeoutMs
      * @return response
      */
-    String httpDelete(String path, Map<String, String> headers, Map<String, String> paramValues,
-                      String encoding, long readTimeoutMs);
+    Result httpDelete(String path, Map<String, String> headers, Map<String, String> paramValues,
+                      long readTimeoutMs);
 }

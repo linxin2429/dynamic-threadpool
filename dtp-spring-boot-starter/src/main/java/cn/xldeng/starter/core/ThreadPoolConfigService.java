@@ -1,8 +1,8 @@
 package cn.xldeng.starter.core;
 
 import cn.xldeng.starter.config.DynamicThreadPoolProperties;
-import cn.xldeng.starter.http.HttpAgent;
-import cn.xldeng.starter.http.ServerHttpAgent;
+import cn.xldeng.starter.remote.HttpAgent;
+import cn.xldeng.starter.remote.ServerHttpAgent;
 import cn.xldeng.starter.listener.ClientWorker;
 import cn.xldeng.starter.listener.Listener;
 
@@ -26,7 +26,16 @@ public class ThreadPoolConfigService implements ConfigService {
     }
 
     @Override
-    public void addListener(String tpId, Listener listener) {
-        clientWorker.addTenantListeners(tpId, Collections.singletonList(listener));
+    public void addListener(String namespace, String itemId, String tpId, Listener listener) {
+        clientWorker.addTenantListeners(namespace, itemId, tpId, Collections.singletonList(listener));
+    }
+
+    @Override
+    public String getServerStatus() {
+        if (clientWorker.isHealthServer()) {
+            return "UP";
+        } else {
+            return "DOWN";
+        }
     }
 }

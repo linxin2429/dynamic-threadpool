@@ -1,7 +1,5 @@
 package cn.xldeng.starter.model;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -20,7 +18,7 @@ public class PoolParameterInfo implements Serializable {
     /**
      * 租户 Or 命名空间
      */
-    private String tenant;
+    private String namespace;
 
     /**
      * 项目 Id
@@ -61,13 +59,4 @@ public class PoolParameterInfo implements Serializable {
      * 线程存活时长
      */
     private Integer keepAliveTime;
-
-    public void setContent(String content) {
-        JSONObject poolParam = JSON.parseObject(content);
-        this.coreSize = poolParam.getInteger("coreSize");
-        this.maxSize = poolParam.getInteger("maxSize");
-        this.capacity = poolParam.getInteger("capacity");
-        this.queueType = poolParam.getInteger("queueType");
-        this.keepAliveTime = poolParam.getInteger("keepAliveTime");
-    }
 }
