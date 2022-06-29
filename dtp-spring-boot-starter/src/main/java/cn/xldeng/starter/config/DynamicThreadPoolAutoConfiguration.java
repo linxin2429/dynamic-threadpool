@@ -3,7 +3,7 @@ package cn.xldeng.starter.config;
 import cn.xldeng.starter.adapter.ThreadPoolConfigAdapter;
 import cn.xldeng.starter.core.ConfigService;
 import cn.xldeng.starter.core.ThreadPoolConfigService;
-import cn.xldeng.starter.core.ThreadPoolRunListener;
+import cn.xldeng.starter.listener.ThreadPoolRunListener;
 import cn.xldeng.starter.operation.ThreadPoolOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +44,6 @@ public class DynamicThreadPoolAutoConfiguration {
 
     @Bean
     public ThreadPoolOperation threadPoolOperation() {
-        return new ThreadPoolOperation();
+        return new ThreadPoolOperation(poolProperties);
     }
 }
