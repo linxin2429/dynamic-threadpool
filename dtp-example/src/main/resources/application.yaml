@@ -1,0 +1,7 @@
+spring:
+  dynamic:
+    thread-pool:
+      enabled: true
+      server-addr: localhost:6691
+      tenant: prescription
+      item-id: dynamic-threadpool-example

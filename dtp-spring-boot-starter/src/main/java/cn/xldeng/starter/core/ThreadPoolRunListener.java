@@ -1,15 +1,16 @@
 package cn.xldeng.starter.core;
 
 import cn.xldeng.starter.common.CommonThreadPool;
-import cn.xldeng.starter.config.ApplicationContexHolder;
+import cn.xldeng.starter.config.ApplicationContextHolder;
+import cn.xldeng.starter.config.DynamicThreadPoolProperties;
 import cn.xldeng.starter.model.PoolParameterInfo;
 import cn.xldeng.starter.tookit.BlockingQueueUtil;
 import cn.xldeng.starter.tookit.HttpClientUtil;
 import cn.xldeng.starter.wrap.DynamicThreadPoolWrap;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
@@ -24,18 +25,24 @@ import java.util.concurrent.TimeUnit;
  */
 public class ThreadPoolRunListener implements ApplicationRunner {
 
-    @Autowired
+    @Resource
     private HttpClientUtil httpClientUtil;
 
+    private final DynamicThreadPoolProperties dynamicThreadPoolProperties;
+
+    public ThreadPoolRunListener(DynamicThreadPoolProperties properties) {
+        this.dynamicThreadPoolProperties = properties;
+    }
+
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         Map<String, DynamicThreadPoolWrap> executorMap =
-                ApplicationContexHolder.getBeansOfType(DynamicThreadPoolWrap.class);
+                ApplicationContextHolder.getBeansOfType(DynamicThreadPoolWrap.class);
         executorMap.forEach((key, val) -> {
             Map<String, Object> queryStrMap = new HashMap<>(16);
             queryStrMap.put("tpId", val.getTpId());
-            queryStrMap.put("itemId", val.getItemId());
-            queryStrMap.put("tenant", val.getTenant());
+            queryStrMap.put("itemId", dynamicThreadPoolProperties.getItemId());
+            queryStrMap.put("tenant", dynamicThreadPoolProperties.getTenant());
 
             PoolParameterInfo ppi = httpClientUtil.restApiGet(buildUrl(), queryStrMap, PoolParameterInfo.class);
             if (ppi != null) {
@@ -51,7 +58,7 @@ public class ThreadPoolRunListener implements ApplicationRunner {
             } else if (val.getPool() == null) {
                 val.setPool(CommonThreadPool.getInstance(val.getTpId()));
             }
-            GlobalThreadPoolManage.register(buildOnlyId(val), val);
+            GlobalThreadPoolManage.register(val.getTpId(), val);
         });
     }
 
@@ -59,7 +66,4 @@ public class ThreadPoolRunListener implements ApplicationRunner {
         return "http://127.0.0.1:6691/v1/cs/configs";
     }
 
-    private String buildOnlyId(DynamicThreadPoolWrap poolWrap) {
-        return poolWrap.getTenant() + "_" + poolWrap.getItemId() + "_" + poolWrap.getTpId();
-    }
 }

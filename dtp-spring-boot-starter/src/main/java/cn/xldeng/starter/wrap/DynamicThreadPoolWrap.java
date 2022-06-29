@@ -25,21 +25,19 @@ public class DynamicThreadPoolWrap {
     /**
      * 首选服务端线程池, 为空使用默认线程池 {@link cn.xldeng.starter.common.CommonThreadPool#getInstance(String)}
      *
-     * @param threadPoolId
+     * @param threadPoolId threadPoolId
      */
-    public DynamicThreadPoolWrap(String tenant, String itemId, String threadPoolId) {
-        this(tenant, itemId, threadPoolId, null);
+    public DynamicThreadPoolWrap(String threadPoolId) {
+        this(threadPoolId, null);
     }
 
     /**
      * 首选服务端线程池, 为空使用 threadPoolExecutor
      *
-     * @param threadPoolId
-     * @param threadPoolExecutor
+     * @param threadPoolId       threadPoolId
+     * @param threadPoolExecutor threadPoolExecutor
      */
-    public DynamicThreadPoolWrap(String tenant, String itemId, String threadPoolId, ThreadPoolExecutor threadPoolExecutor) {
-        this.tenant = tenant;
-        this.itemId = itemId;
+    public DynamicThreadPoolWrap(String threadPoolId, ThreadPoolExecutor threadPoolExecutor) {
         this.tpId = threadPoolId;
         this.pool = threadPoolExecutor;
     }
@@ -47,7 +45,7 @@ public class DynamicThreadPoolWrap {
     /**
      * 提交任务
      *
-     * @param command
+     * @param command command
      */
     public void execute(Runnable command) {
         pool.execute(command);
@@ -56,8 +54,8 @@ public class DynamicThreadPoolWrap {
     /**
      * 提交任务
      *
-     * @param task
-     * @return
+     * @param task task
+     * @return Future
      */
     public Future<?> submit(Runnable task) {
         return pool.submit(task);
@@ -66,8 +64,8 @@ public class DynamicThreadPoolWrap {
     /**
      * 提交任务
      *
-     * @param task
-     * @return
+     * @param task task
+     * @return Future
      */
     public <T> Future<T> submit(Callable<T> task) {
         return pool.submit(task);

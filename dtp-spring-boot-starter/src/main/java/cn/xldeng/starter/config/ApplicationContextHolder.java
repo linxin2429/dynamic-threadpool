@@ -12,14 +12,14 @@ import java.util.Map;
  * @author: dengxinlin
  * @create: 2022-06-27 07:31
  */
-public class ApplicationContexHolder implements ApplicationContextAware {
+public class ApplicationContextHolder implements ApplicationContextAware {
 
     private static ApplicationContext CONTEXT;
 
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        ApplicationContexHolder.CONTEXT = applicationContext;
+        ApplicationContextHolder.CONTEXT = applicationContext;
     }
 
     /**

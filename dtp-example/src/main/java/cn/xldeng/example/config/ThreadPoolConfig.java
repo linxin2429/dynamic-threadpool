@@ -14,6 +14,6 @@ import org.springframework.context.annotation.Configuration;
 public class ThreadPoolConfig {
     @Bean
     public DynamicThreadPoolWrap messageCenterConsumeThreadPool() {
-        return new DynamicThreadPoolWrap("common", "message", "message-consumer");
+        return new DynamicThreadPoolWrap("message-consume");
     }
 }

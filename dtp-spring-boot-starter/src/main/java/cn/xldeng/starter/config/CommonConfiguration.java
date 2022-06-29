@@ -1,6 +1,5 @@
 package cn.xldeng.starter.config;
 
-import cn.xldeng.starter.core.ThreadPoolRunListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,12 +12,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CommonConfiguration {
     @Bean
-    public ApplicationContexHolder applicationContexHolder() {
-        return new ApplicationContexHolder();
+    public ApplicationContextHolder applicationContexHolder() {
+        return new ApplicationContextHolder();
     }
 
-    @Bean
-    public ThreadPoolRunListener threadPoolRunListener() {
-        return new ThreadPoolRunListener();
-    }
+
 }
