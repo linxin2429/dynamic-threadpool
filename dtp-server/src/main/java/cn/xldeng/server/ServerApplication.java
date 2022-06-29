@@ -9,7 +9,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author: dengxinlin
  * @create: 2022-06-27 01:28
  */
-@SpringBootApplication
+@SpringBootApplication(
+        scanBasePackages = {
+                "cn.xldeng.common.config","cn.xldeng.server"
+        }
+)
 public class ServerApplication {
     public static void main(String[] args) {
         SpringApplication.run(ServerApplication.class, args);

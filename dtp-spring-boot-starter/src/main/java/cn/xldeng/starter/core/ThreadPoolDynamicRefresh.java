@@ -1,6 +1,6 @@
 package cn.xldeng.starter.core;
 
-import cn.xldeng.starter.model.PoolParameterInfo;
+import cn.xldeng.common.model.PoolParameterInfo;
 import cn.xldeng.starter.wrap.DynamicThreadPoolWrap;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;

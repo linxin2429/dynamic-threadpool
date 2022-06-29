@@ -1,4 +1,4 @@
-package cn.xldeng.starter.config;
+package cn.xldeng.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

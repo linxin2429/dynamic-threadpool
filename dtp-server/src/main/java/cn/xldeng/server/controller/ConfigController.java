@@ -1,8 +1,11 @@
 package cn.xldeng.server.controller;
 
+import cn.xldeng.common.web.base.Result;
+import cn.xldeng.common.web.base.Results;
 import cn.xldeng.server.constant.Constants;
 import cn.xldeng.server.model.ConfigInfoBase;
 import cn.xldeng.server.service.ConfigService;
+import cn.xldeng.server.service.ConfigServletInner;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -25,13 +28,16 @@ public class ConfigController {
     @Autowired
     private ConfigService configService;
 
+    @Autowired
+    private ConfigServletInner configServletInner;
+
     @GetMapping
-    public ConfigInfoBase detailConfigInfo(
+    public Result<ConfigInfoBase> detailConfigInfo(
             @RequestParam("tpId") String tpId,
             @RequestParam("itemId") String itemId,
             @RequestParam(value = "namespace", required = false, defaultValue = "") String namespace
     ) {
-        return configService.findConfigAllInfo(tpId, itemId, namespace);
+        return Results.success(configService.findConfigAllInfo(tpId, itemId, namespace));
     }
 
     @SneakyThrows
@@ -44,7 +50,7 @@ public class ConfigController {
             throw new IllegalArgumentException("invalid probeModify");
         }
         probeModify = URLDecoder.decode(probeModify, Constants.ENCODE);
-        //TODO
+        configServletInner.doPollingConfig(request, response, null, probeModify.length());
     }
 
 }

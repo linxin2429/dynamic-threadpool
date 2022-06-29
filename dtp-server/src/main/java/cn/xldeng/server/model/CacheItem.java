@@ -25,11 +25,11 @@ public class CacheItem {
     public SimpleReadWriteLock rwLock = new SimpleReadWriteLock();
 
     public CacheItem(String groupKey) {
-        this.groupKey = SingletonRepository.DataIdGroupCache.getSingleton(groupKey);
+        this.groupKey = SingletonRepository.DataIdGroupIdCache.getSingleton(groupKey);
     }
 
     public CacheItem(String groupKey, String md5) {
         this.md5 = md5;
-        this.groupKey = SingletonRepository.DataIdGroupCache.getSingleton(groupKey);
+        this.groupKey = SingletonRepository.DataIdGroupIdCache.getSingleton(groupKey);
     }
 }

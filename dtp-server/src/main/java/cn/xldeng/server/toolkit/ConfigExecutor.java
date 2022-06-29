@@ -24,7 +24,7 @@ public class ConfigExecutor {
         LONG_POLLING_EXECUTOR.execute(runnable);
     }
 
-    public static ScheduledFuture<?> scheduledFuture(Runnable runnable, long period, TimeUnit unit) {
+    public static ScheduledFuture<?> scheduleLongPolling(Runnable runnable, long period, TimeUnit unit) {
         return LONG_POLLING_EXECUTOR.schedule(runnable, period, unit);
     }
 

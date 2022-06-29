@@ -1,7 +1,7 @@
 package cn.xldeng.starter.adapter;
 
 import cn.hutool.core.thread.ThreadFactoryBuilder;
-import cn.xldeng.starter.config.ApplicationContextHolder;
+import cn.xldeng.common.config.ApplicationContextHolder;
 import cn.xldeng.starter.operation.ThreadPoolOperation;
 import cn.xldeng.starter.wrap.DynamicThreadPoolWrap;
 import org.springframework.beans.factory.annotation.Autowired;

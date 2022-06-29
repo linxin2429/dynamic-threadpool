@@ -1,7 +1,7 @@
 package cn.xldeng.starter.remote;
 
 import cn.xldeng.common.web.base.Result;
-import cn.xldeng.starter.config.ApplicationContextHolder;
+import cn.xldeng.common.config.ApplicationContextHolder;
 import cn.xldeng.starter.config.DynamicThreadPoolProperties;
 import cn.xldeng.starter.tookit.HttpClientUtil;
 
