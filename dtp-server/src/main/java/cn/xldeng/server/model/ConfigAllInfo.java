@@ -1,5 +1,6 @@
 package cn.xldeng.server.model;
 
+import cn.xldeng.common.model.PoolParameter;
 import lombok.Data;
 
 /**
@@ -9,7 +10,7 @@ import lombok.Data;
  * @create: 2022-06-27 07:27
  */
 @Data
-public class ConfigAllInfo extends ConfigInfo {
+public class ConfigAllInfo extends ConfigInfo implements PoolParameter {
 
     private static final long serialVersionUID = -2069435444024108298L;
 
