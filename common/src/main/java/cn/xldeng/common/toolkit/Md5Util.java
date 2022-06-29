@@ -1,5 +1,7 @@
 package cn.xldeng.common.toolkit;
 
+import cn.xldeng.common.model.PoolParameter;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -51,5 +53,8 @@ public class Md5Util {
         return new String(out);
     }
 
+    public static String getTpContentMd5(PoolParameter config) {
+        return Md5Util.md5Hex(ContentUtil.getPoolContent(config), "UTF-8");
+    }
 
 }

@@ -1,4 +1,4 @@
-package cn.xldeng.starter.config;
+package cn.xldeng.common.config;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
