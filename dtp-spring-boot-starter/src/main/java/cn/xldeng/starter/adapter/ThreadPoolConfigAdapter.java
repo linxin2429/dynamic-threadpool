@@ -5,6 +5,7 @@ import cn.xldeng.common.config.ApplicationContextHolder;
 import cn.xldeng.starter.operation.ThreadPoolOperation;
 import cn.xldeng.starter.wrap.DynamicThreadPoolWrap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class ThreadPoolConfigAdapter extends ConfigAdapter {
             new ThreadPoolExecutor.DiscardOldestPolicy()
     );
 
+    @Order(1025)
     @PostConstruct
     public void subscribeConfig() {
         Map<String, DynamicThreadPoolWrap> executorMap = ApplicationContextHolder.getBeansOfType(DynamicThreadPoolWrap.class);
