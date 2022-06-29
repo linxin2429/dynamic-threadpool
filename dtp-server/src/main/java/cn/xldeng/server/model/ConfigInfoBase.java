@@ -13,7 +13,10 @@ import java.io.Serializable;
 @Data
 public class ConfigInfoBase implements Serializable {
     private static final long serialVersionUID = 2443779416309879749L;
-
+    /**
+     * namespace
+     */
+    private String namespace;
     /**
      * TpId
      */
