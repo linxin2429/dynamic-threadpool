@@ -30,9 +30,9 @@ public class ItemController {
         return Results.success(itemService.queryItemPage(reqDTO));
     }
 
-    @GetMapping("/item/query/{itemId}")
-    public Result queryItemById(@PathParam("itemId") String itemId) {
-        return Results.success(itemService.queryItemById(itemId));
+    @GetMapping("/item/query/{namespace}/{itemId}")
+    public Result queryItemById(@PathParam("namespace") String namespace,@PathParam("itemId") String itemId) {
+        return Results.success(itemService.queryItemById(namespace,itemId));
     }
 
     @PostMapping("/item/save")

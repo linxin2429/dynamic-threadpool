@@ -2,6 +2,8 @@ package cn.xldeng.server.model.biz.threadpool;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @program: threadpool
  * @description:
@@ -10,4 +12,19 @@ import lombok.Data;
  */
 @Data
 public class ThreadPoolRespDTO {
+    private Integer id;
+
+    private String tenantId;
+
+    private String itemId;
+
+    private String itemName;
+
+    private String itemDesc;
+
+    private String owner;
+
+    private Date gmtCreate;
+
+    private Date gmtModified;
 }

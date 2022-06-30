@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication(
         scanBasePackages = {
-                "cn.xldeng.common.config", "cn.xldeng.server"
+                "cn.xldeng.server", "cn.xldeng.common.config"
         }
 )
 @MapperScan("cn.xldeng.server.mapper")
