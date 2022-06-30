@@ -88,7 +88,7 @@ public class LongPollingService {
         @Override
         public void run() {
             try {
-                for (Iterator<ClientLongPolling> iter = allSubs.iterator(); iter.hasNext()) {
+                for (Iterator<ClientLongPolling> iter = allSubs.iterator(); iter.hasNext();) {
                     ClientLongPolling clientSub = iter.next();
                     if (clientSub.clientMd5Map.containsKey(groupKey)) {
                         getRetainIps().put(clientSub.ip, System.currentTimeMillis());
@@ -120,7 +120,6 @@ public class LongPollingService {
                                      Map<String, String> clientMd5Map,
                                      int probeRequestSize) {
         String str = req.getHeader(LONG_POLLING_HEADER);
-        String noHangUpFlag = req.getHeader(LONG_POLLING_NO_HANG_UP_HEADER);
         String appName = req.getHeader(CLIENT_APPNAME_HEADER);
         int delayTime = SwitchService.getSwitchInteger(SwitchService.FIXED_DELAY_TIME, 500);
 

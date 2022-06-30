@@ -51,6 +51,7 @@ public class ConfigController {
         }
         probeModify = URLDecoder.decode(probeModify, Constants.ENCODE);
         configServletInner.doPollingConfig(request, response, null, probeModify.length());
+        //TODO
     }
 
 }
