@@ -1,4 +1,4 @@
-package cn.xldeng.server.service.impl;
+package cn.xldeng.server.service.biz.impl;
 
 import cn.xldeng.server.mapper.ItemInfoMapper;
 import cn.xldeng.server.model.ItemInfo;
@@ -6,7 +6,7 @@ import cn.xldeng.server.model.biz.item.ItemQueryReqDTO;
 import cn.xldeng.server.model.biz.item.ItemRespDTO;
 import cn.xldeng.server.model.biz.item.ItemSaveReqDTO;
 import cn.xldeng.server.model.biz.item.ItemUpdateReqDTO;
-import cn.xldeng.server.service.ItemService;
+import cn.xldeng.server.service.biz.ItemService;
 import cn.xldeng.server.toolkit.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;

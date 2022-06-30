@@ -6,7 +6,7 @@ import cn.xldeng.common.web.base.Results;
 import cn.xldeng.server.model.biz.item.ItemQueryReqDTO;
 import cn.xldeng.server.model.biz.item.ItemRespDTO;
 import cn.xldeng.server.model.biz.item.ItemSaveReqDTO;
-import cn.xldeng.server.service.ItemService;
+import cn.xldeng.server.service.biz.ItemService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.web.bind.annotation.*;
 

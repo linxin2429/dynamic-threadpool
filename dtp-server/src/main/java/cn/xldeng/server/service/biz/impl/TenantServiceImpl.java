@@ -1,4 +1,4 @@
-package cn.xldeng.server.service.impl;
+package cn.xldeng.server.service.biz.impl;
 
 import cn.xldeng.server.enums.DelEnum;
 import cn.xldeng.server.mapper.TenantInfoMapper;
@@ -9,8 +9,8 @@ import cn.xldeng.server.model.biz.tenant.TenantQueryReqDTO;
 import cn.xldeng.server.model.biz.tenant.TenantRespDTO;
 import cn.xldeng.server.model.biz.tenant.TenantSaveReqDTO;
 import cn.xldeng.server.model.biz.tenant.TenantUpdateReqDTO;
-import cn.xldeng.server.service.ItemService;
-import cn.xldeng.server.service.TenantService;
+import cn.xldeng.server.service.biz.ItemService;
+import cn.xldeng.server.service.biz.TenantService;
 import cn.xldeng.server.toolkit.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;

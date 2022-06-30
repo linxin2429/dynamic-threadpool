@@ -1,10 +1,14 @@
-package cn.xldeng.server.service.impl;
+package cn.xldeng.server.service.biz.impl;
 
+import cn.xldeng.common.toolkit.ContentUtil;
+import cn.xldeng.server.event.LocalDataChangeEvent;
 import cn.xldeng.server.mapper.ConfigInfoMapper;
 import cn.xldeng.server.model.ConfigAllInfo;
-import cn.xldeng.server.service.ConfigService;
+import cn.xldeng.server.service.ConfigChangePublisher;
+import cn.xldeng.server.service.biz.ConfigService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -29,9 +33,9 @@ public class ConfigServiceImpl implements ConfigService {
     @Override
     public ConfigAllInfo findConfigAllInfo(String tpId, String itemId, String namespace) {
         LambdaQueryWrapper<ConfigAllInfo> wrapper = Wrappers.lambdaQuery(ConfigAllInfo.class)
-                .eq(ConfigAllInfo::getTpId, tpId)
-                .eq(ConfigAllInfo::getItemId, itemId)
-                .eq(ConfigAllInfo::getNamespace, namespace);
+                .eq(!StringUtils.isBlank(tpId), ConfigAllInfo::getTpId, tpId)
+                .eq(!StringUtils.isBlank(itemId), ConfigAllInfo::getItemId, itemId)
+                .eq(!StringUtils.isBlank(namespace), ConfigAllInfo::getNamespace, namespace);
         return configInfoMapper.selectOne(wrapper);
     }
 
@@ -42,6 +46,7 @@ public class ConfigServiceImpl implements ConfigService {
         } catch (Exception ex) {
             updateConfigInfo(configAllInfo);
         }
+        ConfigChangePublisher.notifyConfigChange(new LocalDataChangeEvent(ContentUtil.getGroupKey(configAllInfo)));
     }
 
     private Integer addConfigInfo(ConfigAllInfo config) {

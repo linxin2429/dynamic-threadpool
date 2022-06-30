@@ -7,7 +7,7 @@ import cn.xldeng.server.model.biz.tenant.TenantQueryReqDTO;
 import cn.xldeng.server.model.biz.tenant.TenantRespDTO;
 import cn.xldeng.server.model.biz.tenant.TenantSaveReqDTO;
 import cn.xldeng.server.model.biz.tenant.TenantUpdateReqDTO;
-import cn.xldeng.server.service.TenantService;
+import cn.xldeng.server.service.biz.TenantService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.web.bind.annotation.*;
 

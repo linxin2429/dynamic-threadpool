@@ -1,4 +1,4 @@
-package cn.xldeng.server.service;
+package cn.xldeng.server.service.biz;
 
 import cn.xldeng.server.model.biz.tenant.TenantQueryReqDTO;
 import cn.xldeng.server.model.biz.tenant.TenantRespDTO;

@@ -1,4 +1,4 @@
-package cn.xldeng.server.service;
+package cn.xldeng.server.service.biz;
 
 import cn.xldeng.server.model.biz.item.ItemQueryReqDTO;
 import cn.xldeng.server.model.biz.item.ItemRespDTO;

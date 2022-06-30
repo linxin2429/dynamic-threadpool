@@ -8,7 +8,7 @@ import cn.xldeng.server.event.LocalDataChangeEvent;
 import cn.xldeng.server.model.ConfigAllInfo;
 import cn.xldeng.server.model.ConfigInfoBase;
 import cn.xldeng.server.service.ConfigChangePublisher;
-import cn.xldeng.server.service.ConfigService;
+import cn.xldeng.server.service.biz.ConfigService;
 import cn.xldeng.server.service.ConfigServletInner;
 import cn.xldeng.server.toolkit.Md5ConfigUtil;
 import lombok.SneakyThrows;
@@ -47,7 +47,7 @@ public class ConfigController {
     }
 
     @PostMapping
-    public Result<Boolean> publishConfig(HttpServletRequest request, @RequestBody ConfigAllInfo config) {
+    public Result<Boolean> publishConfig(@RequestBody ConfigAllInfo config) {
         configService.insertOrUpdate(config);
         ConfigChangePublisher.notifyConfigChange(new LocalDataChangeEvent(ContentUtil.getGroupKey(config)));
         return Results.success(true);
