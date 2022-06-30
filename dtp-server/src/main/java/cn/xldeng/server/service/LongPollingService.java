@@ -49,6 +49,8 @@ public class LongPollingService {
 
         ConfigExecutor.scheduleLongPolling(new StatTask(), 0L, 10L, TimeUnit.SECONDS);
 
+        NotifyCenter.registerToPublisher(LocalDataChangeEvent.class, NotifyCenter.ringBufferSize);
+
         NotifyCenter.registerSubscriber(new Subscriber() {
             @Override
             public void onEvent(Event event) {
@@ -88,16 +90,16 @@ public class LongPollingService {
         @Override
         public void run() {
             try {
-                for (Iterator<ClientLongPolling> iter = allSubs.iterator(); iter.hasNext();) {
+                for (Iterator<ClientLongPolling> iter = allSubs.iterator(); iter.hasNext(); ) {
                     ClientLongPolling clientSub = iter.next();
                     if (clientSub.clientMd5Map.containsKey(groupKey)) {
                         getRetainIps().put(clientSub.ip, System.currentTimeMillis());
                         iter.remove();
-                        clientSub.sendResponse(Arrays.asList(groupKey));
+                        clientSub.sendResponse(Collections.singletonList(groupKey));
                     }
 
                 }
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 log.error("Data change error :: {}", ex.getMessage(), ex);
             }
         }
@@ -234,8 +236,8 @@ public class LongPollingService {
     /**
      * 回写响应
      *
-     * @param response
-     * @param changedGroups
+     * @param response response
+     * @param changedGroups changedGroups
      */
     private void generateResponse(HttpServletResponse response, List<String> changedGroups) {
         if (!CollectionUtils.isEmpty(changedGroups)) {

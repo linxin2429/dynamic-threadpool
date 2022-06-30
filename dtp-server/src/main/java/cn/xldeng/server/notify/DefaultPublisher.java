@@ -63,10 +63,7 @@ public class DefaultPublisher extends Thread implements EventPublisher {
     private void openEventHandler() {
         try {
             int waitTimes = 60;
-            for (; ; ) {
-                if (shutdown || hasSubscriber() || waitTimes <= 0) {
-                    break;
-                }
+            while (!shutdown && !hasSubscriber() && waitTimes > 0) {
                 try {
                     Thread.sleep(1000L);
                 } catch (InterruptedException e) {
@@ -75,16 +72,13 @@ public class DefaultPublisher extends Thread implements EventPublisher {
                 waitTimes--;
             }
 
-            for (; ; ) {
-                if (shutdown) {
-                    break;
-                }
+            while (!shutdown) {
                 final Event event = queue.take();
                 receiveEvent(event);
                 UPDATER.compareAndSet(this, lastEventSequence, Math.max(lastEventSequence, event.sequence()));
             }
         } catch (Exception e) {
-            log.error("Event listener exception : ", e);
+            log.error("Event listener exception : {}",e.getMessage(), e);
         }
     }
 
@@ -124,7 +118,7 @@ public class DefaultPublisher extends Thread implements EventPublisher {
             try {
                 job.run();
             }catch (Throwable e){
-                log.error("Event callback exception : ", e);
+                log.error("Event callback exception : {}",e.getMessage(), e);
             }
         }
     }

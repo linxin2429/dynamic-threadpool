@@ -3,9 +3,13 @@ package cn.xldeng.server.controller;
 import cn.xldeng.common.web.base.Result;
 import cn.xldeng.common.web.base.Results;
 import cn.xldeng.server.constant.Constants;
+import cn.xldeng.server.event.LocalDataChangeEvent;
+import cn.xldeng.server.model.ConfigAllInfo;
 import cn.xldeng.server.model.ConfigInfoBase;
+import cn.xldeng.server.service.ConfigChangePublisher;
 import cn.xldeng.server.service.ConfigService;
 import cn.xldeng.server.service.ConfigServletInner;
+import cn.xldeng.server.toolkit.Md5ConfigUtil;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -14,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLDecoder;
+import java.sql.Timestamp;
+import java.util.Map;
 
 /**
  * @program: threadpool
@@ -40,6 +46,16 @@ public class ConfigController {
         return Results.success(configService.findConfigAllInfo(tpId, itemId, namespace));
     }
 
+    @PostMapping
+    public Result<Boolean> publishConfig(HttpServletRequest request, @RequestBody ConfigAllInfo config) {
+        configService.insertOrUpdate(config);
+
+        long gmtModified = new Timestamp(System.currentTimeMillis()).getTime();
+        //TODO
+        ConfigChangePublisher.notifyConfigChange(new LocalDataChangeEvent(""));
+        return Results.success(true);
+    }
+
     @SneakyThrows
     @PostMapping("/listener")
     public void listener(HttpServletRequest request, HttpServletResponse response) {
@@ -50,7 +66,13 @@ public class ConfigController {
             throw new IllegalArgumentException("invalid probeModify");
         }
         probeModify = URLDecoder.decode(probeModify, Constants.ENCODE);
-        configServletInner.doPollingConfig(request, response, null, probeModify.length());
+        Map<String,String> clientMd5Map;
+        try {
+            clientMd5Map = Md5ConfigUtil.getClientMd5Map(probeModify);
+        }catch (Exception e){
+            throw new IllegalArgumentException("invalid probeModify");
+        }
+        configServletInner.doPollingConfig(request, response, clientMd5Map, probeModify.length());
         //TODO
     }
 

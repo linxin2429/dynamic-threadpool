@@ -62,7 +62,7 @@ public class ClientWorker {
             try {
                 checkConfigInfo();
             } catch (Throwable e) {
-                log.error("[sub-check] rotate check error", e);
+                log.error("[sub-check] rotate check error :{}",e.getMessage(), e);
             }
         }, 1L, 10L, TimeUnit.MILLISECONDS);
     }

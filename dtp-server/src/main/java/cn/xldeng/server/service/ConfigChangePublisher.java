@@ -1,6 +1,6 @@
 package cn.xldeng.server.service;
 
-import cn.xldeng.server.event.ConfigDataChangeEvent;
+import cn.xldeng.server.event.LocalDataChangeEvent;
 import cn.xldeng.server.notify.NotifyCenter;
 
 /**
@@ -10,7 +10,7 @@ import cn.xldeng.server.notify.NotifyCenter;
  * @create: 2022-06-30 00:16
  */
 public class ConfigChangePublisher {
-    public static void notifyConfigChange(ConfigDataChangeEvent event) {
+    public static void notifyConfigChange(LocalDataChangeEvent event) {
         NotifyCenter.publishEvent(event);
     }
 }

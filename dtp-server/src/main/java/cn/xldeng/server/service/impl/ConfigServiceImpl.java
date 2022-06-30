@@ -1,5 +1,7 @@
 package cn.xldeng.server.service.impl;
 
+import cn.xldeng.common.toolkit.ContentUtil;
+import cn.xldeng.common.toolkit.Md5Util;
 import cn.xldeng.server.mapper.RowMapperManager;
 import cn.xldeng.server.model.ConfigAllInfo;
 import cn.xldeng.server.service.ConfigService;
@@ -29,13 +31,12 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public ConfigAllInfo findConfigAllInfo(String tpId, String itemId, String tenant) {
-        ConfigAllInfo configAllInfo = jdbcTemplate.queryForObject(
+
+        return jdbcTemplate.queryForObject(
                 "select * from config where tp_id = ? and item_id = ? and tenant_id = ?",
                 new Object[]{tpId, itemId, tenant},
                 RowMapperManager.CONFIG_ALL_INFO_ROW_MAPPER
         );
-
-        return configAllInfo;
     }
 
     @Override
@@ -50,7 +51,7 @@ public class ConfigServiceImpl implements ConfigService {
     private Long addConfigInfo(ConfigAllInfo config) {
         final String sql = "" +
                 "INSERT INTO `config` (`tenant_id`, `item_id`, `tp_id`, `core_size`, `max_size`, `queue_type`, `capacity`, `keep_alive_time`, `content`, `md5`, `is_alarm`, `capacity_alarm`, `liveness_alarm`) " +
-                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
             jdbcTemplate.update(con -> {
@@ -84,10 +85,13 @@ public class ConfigServiceImpl implements ConfigService {
 
     private void updateConfigInfo(ConfigAllInfo config) {
         try {
+            String poolContent = ContentUtil.getPoolContent(config);
+            String md5 = Md5Util.md5Hex(poolContent, "UTF-8");
+
             jdbcTemplate.update("update config set core_size = ?, max_size = ?, queue_type = ?, capacity = ?, keep_alive_time = ?, content = ?, md5 = ?, is_alarm = ?, capacity_alarm = ?, liveness_alarm = ? " +
-                            "where tenant_id = ?, item_id = ?, tp_id = ?",
+                            "where tenant_id = ? and item_id = ? and tp_id = ?",
                     config.getCoreSize(), config.getMaxSize(), config.getQueueType(), config.getCapacity(), config.getKeepAliveTime(),
-                    config.getContent(), Md5ConfigUtil.getTpContentMd5(config), config.getIsAlarm(), config.getCapacityAlarm(),
+                    poolContent, md5, config.getIsAlarm(), config.getCapacityAlarm(),
                     config.getLivenessAlarm(), config.getNamespace(), config.getItemId(), config.getTpId());
         } catch (Exception ex) {
             log.error("[db-error] message :: {}", ex.getMessage(), ex);

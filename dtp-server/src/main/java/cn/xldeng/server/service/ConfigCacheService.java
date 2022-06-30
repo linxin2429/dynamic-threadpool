@@ -3,8 +3,10 @@ package cn.xldeng.server.service;
 import cn.xldeng.common.config.ApplicationContextHolder;
 import cn.xldeng.common.toolkit.Md5Util;
 import cn.xldeng.server.constant.Constants;
+import cn.xldeng.server.event.LocalDataChangeEvent;
 import cn.xldeng.server.model.CacheItem;
 import cn.xldeng.server.model.ConfigAllInfo;
+import cn.xldeng.server.notify.NotifyCenter;
 import org.springframework.util.StringUtils;
 
 import java.util.Objects;
@@ -45,5 +47,24 @@ public class ConfigCacheService {
             CACHE.put(groupKey, cacheItem);
         }
         return (cacheItem != null) ? cacheItem.md5 : Constants.NULL;
+    }
+
+    public static void updateMd5(String groupKey, String md5, long lastModifiedTs) {
+        CacheItem cache = makeSure(groupKey);
+        if (cache.md5 == null || !cache.md5.equals(md5)) {
+            cache.md5 = md5;
+            cache.lastModifiedTs = lastModifiedTs;
+            NotifyCenter.publishEvent(new LocalDataChangeEvent(groupKey));
+        }
+    }
+
+    static CacheItem makeSure(final String groupKey) {
+        CacheItem item = CACHE.get(groupKey);
+        if (null != item) {
+            return item;
+        }
+        CacheItem tmp = new CacheItem(groupKey);
+        item = CACHE.putIfAbsent(groupKey, tmp);
+        return (null == item) ? tmp : item;
     }
 }
