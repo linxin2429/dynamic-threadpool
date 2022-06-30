@@ -83,17 +83,15 @@ public class TenantServiceImpl implements TenantService {
 
     @Override
     public void deleteNameSpaceById(String namespaceId) {
-        TenantInfo tenantInfo = new TenantInfo();
-        tenantInfo.setDelFlag(DelEnum.DELETE.getIntCode());
-
         ItemQueryReqDTO reqDTO = new ItemQueryReqDTO();
         reqDTO.setTenantId(namespaceId);
         List<ItemRespDTO> itemList = itemService.queryItem(reqDTO);
         if (CollectionUtils.isNotEmpty(itemList)) {
             throw new RuntimeException("业务线包含项目引用, 删除失败.");
         }
-        int updateResult = tenantInfoMapper.update(tenantInfo,
-                Wrappers.lambdaUpdate(TenantInfo.class).eq(TenantInfo::getTenantId, namespaceId));
+        int updateResult = tenantInfoMapper.update(new TenantInfo(),
+                Wrappers.lambdaUpdate(TenantInfo.class).eq(TenantInfo::getTenantId, namespaceId)
+                        .set(TenantInfo::getDelFlag, DelEnum.DELETE.getIntCode()));
         boolean retBool = SqlHelper.retBool(updateResult);
         if (!retBool) {
             throw new RuntimeException("删除失败.");
