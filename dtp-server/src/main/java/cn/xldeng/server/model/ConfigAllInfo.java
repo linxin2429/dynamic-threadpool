@@ -2,7 +2,12 @@ package cn.xldeng.server.model;
 
 import cn.xldeng.common.model.PoolParameter;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * @program: threadpool
@@ -11,19 +16,18 @@ import lombok.Data;
  * @create: 2022-06-27 07:27
  */
 @Data
+@TableName("config")
 public class ConfigAllInfo extends ConfigInfo implements PoolParameter {
 
     private static final long serialVersionUID = -2069435444024108298L;
 
     @JSONField(serialize = false)
-    private String createUser;
-
-    @JSONField(serialize = false)
+    @TableField(exist = false,fill = FieldFill.UPDATE)
     private String desc;
 
     @JSONField(serialize = false)
-    private Long createTime;
+    private Date gmtCreate;
 
     @JSONField(serialize = false)
-    private Long modifyTime;
+    private Date gmtModified;
 }

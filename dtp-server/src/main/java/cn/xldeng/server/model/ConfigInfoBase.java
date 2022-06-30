@@ -1,6 +1,7 @@
 package cn.xldeng.server.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,9 +15,15 @@ import java.io.Serializable;
 @Data
 public class ConfigInfoBase implements Serializable {
     private static final long serialVersionUID = 2443779416309879749L;
+
+    /**
+     * ID
+     */
+    private Integer id;
     /**
      * namespace
      */
+    @TableField(value = "tenant_id")
     private String namespace;
     /**
      * TpId
