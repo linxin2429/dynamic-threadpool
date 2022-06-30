@@ -25,11 +25,11 @@ public class ConfigCacheService {
     private static final ConcurrentHashMap<String, CacheItem> CACHE = new ConcurrentHashMap<>();
 
     public static boolean isUpdateData(String groupKey, String md5, String ip) {
-        String contentMd5 = ConfigCacheService.getContentMd5(groupKey, ip);
+        String contentMd5 = ConfigCacheService.getContentMd5IsNullPut(groupKey, ip);
         return Objects.equals(contentMd5, md5);
     }
 
-    private static String getContentMd5(String groupKey, String ip) {
+    private static String getContentMd5IsNullPut(String groupKey, String ip) {
         CacheItem cacheItem = CACHE.get(groupKey);
         if (cacheItem != null) {
             return cacheItem.md5;
@@ -47,6 +47,20 @@ public class ConfigCacheService {
             CACHE.put(groupKey, cacheItem);
         }
         return (cacheItem != null) ? cacheItem.md5 : Constants.NULL;
+    }
+
+    public static String getContentMd5(String groupKey) {
+        if (configService == null) {
+            configService = ApplicationContextHolder.getBean(ConfigService.class);
+        }
+
+        String[] split = groupKey.split("\\+");
+        ConfigAllInfo config = configService.findConfigAllInfo(split[0], split[1], split[2]);
+        if (config == null && StringUtils.isEmpty(config.getTpId())) {
+            String errorMessage = String.format("config is null. tpId :: %s, itemId :: %s, namespace :: %s", split[0], split[1], split[2]);
+            throw new RuntimeException(errorMessage);
+        }
+        return Md5Util.getTpContentMd5(config);
     }
 
     public static void updateMd5(String groupKey, String md5, long lastModifiedTs) {

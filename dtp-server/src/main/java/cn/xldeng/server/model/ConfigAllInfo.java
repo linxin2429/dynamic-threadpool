@@ -1,6 +1,7 @@
 package cn.xldeng.server.model;
 
 import cn.xldeng.common.model.PoolParameter;
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 /**
@@ -14,11 +15,15 @@ public class ConfigAllInfo extends ConfigInfo implements PoolParameter {
 
     private static final long serialVersionUID = -2069435444024108298L;
 
+    @JSONField(serialize = false)
     private String createUser;
 
+    @JSONField(serialize = false)
     private String desc;
 
+    @JSONField(serialize = false)
     private Long createTime;
 
+    @JSONField(serialize = false)
     private Long modifyTime;
 }

@@ -1,5 +1,6 @@
 package cn.xldeng.server.controller;
 
+import cn.xldeng.common.toolkit.ContentUtil;
 import cn.xldeng.common.web.base.Result;
 import cn.xldeng.common.web.base.Results;
 import cn.xldeng.server.constant.Constants;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLDecoder;
-import java.sql.Timestamp;
 import java.util.Map;
 
 /**
@@ -49,10 +49,7 @@ public class ConfigController {
     @PostMapping
     public Result<Boolean> publishConfig(HttpServletRequest request, @RequestBody ConfigAllInfo config) {
         configService.insertOrUpdate(config);
-
-        long gmtModified = new Timestamp(System.currentTimeMillis()).getTime();
-        //TODO
-        ConfigChangePublisher.notifyConfigChange(new LocalDataChangeEvent(""));
+        ConfigChangePublisher.notifyConfigChange(new LocalDataChangeEvent(ContentUtil.getGroupKey(config)));
         return Results.success(true);
     }
 

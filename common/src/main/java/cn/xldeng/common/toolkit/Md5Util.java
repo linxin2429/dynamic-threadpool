@@ -1,9 +1,14 @@
 package cn.xldeng.common.toolkit;
 
+import cn.xldeng.common.constant.Constants;
 import cn.xldeng.common.model.PoolParameter;
+import org.springframework.util.StringUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 /**
  * @program: threadpool
@@ -55,6 +60,27 @@ public class Md5Util {
 
     public static String getTpContentMd5(PoolParameter config) {
         return Md5Util.md5Hex(ContentUtil.getPoolContent(config), "UTF-8");
+    }
+
+    public static String compareMd5ResultString(List<String> changedGroupKeys) throws UnsupportedEncodingException {
+        if (null == changedGroupKeys) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (String groupKey : changedGroupKeys) {
+            String[] dataIdGroupId = GroupKey.parseKey(groupKey);
+            sb.append(dataIdGroupId[0]);
+            sb.append(Constants.WORD_SEPARATOR);
+            sb.append(dataIdGroupId[1]);
+            if (dataIdGroupId.length == 3) {
+                if (!StringUtils.isEmpty(dataIdGroupId[2])) {
+                    sb.append(Constants.WORD_SEPARATOR);
+                    sb.append(dataIdGroupId[2]);
+                }
+            }
+            sb.append(Constants.LINE_SEPARATOR);
+        }
+        return URLEncoder.encode(sb.toString(), "UTF-8");
     }
 
 }

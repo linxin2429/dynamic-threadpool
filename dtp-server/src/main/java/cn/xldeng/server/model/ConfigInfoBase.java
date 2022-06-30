@@ -1,5 +1,6 @@
 package cn.xldeng.server.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -70,10 +71,12 @@ public class ConfigInfoBase implements Serializable {
     /**
      * MD5
      */
+    @JSONField(serialize = false)
     private String md5;
 
     /**
      * 内容
      */
+    @JSONField(serialize = false)
     private String content;
 }

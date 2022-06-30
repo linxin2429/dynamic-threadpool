@@ -1,4 +1,4 @@
-package cn.xldeng.starter.common;
+package cn.xldeng.common.constant;
 
 /**
  * @program: threadpool
@@ -35,4 +35,8 @@ public class Constants {
     public static final String PROBE_MODIFY_REQUEST = "Listening-Configs";
 
     public static final String LONG_PULLING_TIMEOUT = "Long-Pulling-Timeout";
+
+    public static final String LISTENING_CONFIGS = "Listening-Configs";
+
+    public static final String GROUP_KEY_DELIMITER = "+";
 }

@@ -1,5 +1,6 @@
 package cn.xldeng.server.service;
 
+import cn.xldeng.common.toolkit.Md5Util;
 import cn.xldeng.common.web.base.Results;
 import cn.xldeng.server.event.Event;
 import cn.xldeng.server.event.LocalDataChangeEvent;
@@ -94,6 +95,7 @@ public class LongPollingService {
                     ClientLongPolling clientSub = iter.next();
                     if (clientSub.clientMd5Map.containsKey(groupKey)) {
                         getRetainIps().put(clientSub.ip, System.currentTimeMillis());
+                        ConfigCacheService.updateMd5(groupKey, ConfigCacheService.getContentMd5(groupKey), System.currentTimeMillis());
                         iter.remove();
                         clientSub.sendResponse(Collections.singletonList(groupKey));
                     }
@@ -213,14 +215,15 @@ public class LongPollingService {
             }
             HttpServletResponse response = (HttpServletResponse) asyncContext.getResponse();
             try {
-                String respString = JSON.toJSONString(Results.success(changedGroups));
+                String respStr = Md5Util.compareMd5ResultString(changedGroups);
+                String resultStr = JSON.toJSONString(Results.success(respStr));
 
                 // Disable cache.
                 response.setHeader("Pragma", "no-cache");
                 response.setDateHeader("Expires", 0);
                 response.setHeader("Cache-Control", "no-cache,no-store");
                 response.setStatus(HttpServletResponse.SC_OK);
-                response.getWriter().println(respString);
+                response.getWriter().println(resultStr);
                 asyncContext.complete();
             } catch (Exception ex) {
                 log.error(ex.toString(), ex);
@@ -236,7 +239,7 @@ public class LongPollingService {
     /**
      * 回写响应
      *
-     * @param response response
+     * @param response      response
      * @param changedGroups changedGroups
      */
     private void generateResponse(HttpServletResponse response, List<String> changedGroups) {

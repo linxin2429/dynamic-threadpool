@@ -1,9 +1,10 @@
 package cn.xldeng.starter.listener;
 
+import cn.xldeng.common.constant.Constants;
 import cn.xldeng.common.model.PoolParameter;
 import cn.xldeng.common.toolkit.ContentUtil;
+import cn.xldeng.common.toolkit.GroupKey;
 import cn.xldeng.common.web.base.Result;
-import cn.xldeng.starter.common.Constants;
 import cn.xldeng.starter.core.CacheData;
 import cn.xldeng.starter.remote.HttpAgent;
 import com.alibaba.fastjson.JSON;
@@ -11,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -62,7 +65,7 @@ public class ClientWorker {
             try {
                 checkConfigInfo();
             } catch (Throwable e) {
-                log.error("[sub-check] rotate check error :{}",e.getMessage(), e);
+                log.error("[sub-check] rotate check error :{}", e.getMessage(), e);
             }
         }, 1L, 10L, TimeUnit.MILLISECONDS);
     }
@@ -96,23 +99,24 @@ public class ClientWorker {
         @Override
         public void run() {
             List<CacheData> cacheDataList = new ArrayList<>();
-            cacheMap.forEach((key, val) -> cacheDataList.add(val));
+            List<CacheData> queryCacheDataList = new ArrayList<>(cacheMap.values());
 
-            List<String> changedTpIds = checkUpdateDataIds(cacheDataList);
-            if (!CollectionUtils.isEmpty(cacheDataList)) {
+            List<String> changedTpIds = checkUpdateDataIds(queryCacheDataList);
+            if (!CollectionUtils.isEmpty(changedTpIds)) {
                 log.info("[dynamic threadPool] tpIds changed :: {}", changedTpIds);
             } else {
                 for (String each : changedTpIds) {
-                    String[] keys = each.split(",");
+                    String[] keys = StringUtils.split(each, Constants.GROUP_KEY_DELIMITER);
                     String namespace = keys[0];
                     String itemId = keys[1];
                     String tpId = keys[2];
                     try {
                         String content = getServerConfig(namespace, itemId, tpId, 3000L);
                         CacheData cacheData = cacheMap.get(tpId);
-                        cacheData.setContent(content);
+                        String poolContent = ContentUtil.getPoolContent(JSON.parseObject(content, PoolParameter.class));
+                        cacheData.setContent(poolContent);
                         cacheDataList.add(cacheData);
-                        log.info("[data-received] namespace :: {}, itemId :: {}, tpId :: {}, md5 :: {}, content :: {}", namespace, itemId, tpId, cacheData.getMd5(), content);
+                        log.info("[data-received] namespace :: {}, itemId :: {}, tpId :: {}, md5 :: {}", namespace, itemId, tpId, cacheData.getMd5());
                     } catch (Exception ex) {
                         //ignore
                     }
@@ -172,12 +176,41 @@ public class ClientWorker {
 
     /**
      * Http 响应中获取变更的配置项
+     * //fixme 为什么解析出response又要转成string的形式，为什么不直接封装成一个对象
      *
      * @param response response
      * @return configs
      */
     public List<String> parseUpdateDataIdResponse(String response) {
-        return null;
+        if (StringUtils.isEmpty(response)) {
+            return Collections.emptyList();
+        }
+
+        try {
+            response = URLDecoder.decode(response, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            log.error("[polling-resp] decode modifiedDataIdsString error", e);
+        }
+
+        List<String> updateList = new LinkedList<>();
+        for (String dataIdAndGroup : response.split(Constants.LINE_SEPARATOR)) {
+            if (!StringUtils.isEmpty(dataIdAndGroup)) {
+                String[] keyAttr = dataIdAndGroup.split(Constants.WORD_SEPARATOR);
+                String dataId = keyAttr[0];
+                String group = keyAttr[1];
+                if (keyAttr.length == 2) {
+                    updateList.add(GroupKey.getKey(dataId, group));
+                    log.info("[polling-resp] config changed. dataId={}, group={}", dataId, group);
+                } else if (keyAttr.length == 3) {
+                    String tenant = keyAttr[2];
+                    updateList.add(GroupKey.getKey(dataId, group, tenant));
+                    log.info("[polling-resp] config changed. dataId={}, group={}, tenant={}", dataId, group, tenant);
+                } else {
+                    log.error("[polling-resp] invalid dataIdAndGroup error {}", dataIdAndGroup);
+                }
+            }
+        }
+        return updateList;
     }
 
     /**
