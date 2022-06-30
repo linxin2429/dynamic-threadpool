@@ -7,3 +7,9 @@ spring:
     url: jdbc:mysql://localhost:3306/hippo4j_manager?useUnicode=true&serverTimezone=Asia/Shanghai
     username: root
     password: dengxinlin2429
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-value: 1
+      logic-not-delete-value: 0
