@@ -1,5 +1,6 @@
 package cn.xldeng.server;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -11,9 +12,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication(
         scanBasePackages = {
-                "cn.xldeng.common.config","cn.xldeng.server"
+                "cn.xldeng.common.config", "cn.xldeng.server"
         }
 )
+@MapperScan("cn.xldeng.server.mapper")
 public class ServerApplication {
     public static void main(String[] args) {
         SpringApplication.run(ServerApplication.class, args);
