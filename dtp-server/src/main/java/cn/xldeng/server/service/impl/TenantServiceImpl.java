@@ -19,6 +19,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.List;
  * @author: dengxinlin
  * @create: 2022-06-30 16:50
  */
+@Service
 public class TenantServiceImpl implements TenantService {
     @Resource
     private ItemService itemService;

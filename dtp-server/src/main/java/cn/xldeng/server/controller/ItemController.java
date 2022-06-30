@@ -1,0 +1,49 @@
+package cn.xldeng.server.controller;
+
+import cn.xldeng.common.constant.Constants;
+import cn.xldeng.common.web.base.Result;
+import cn.xldeng.common.web.base.Results;
+import cn.xldeng.server.model.biz.item.ItemQueryReqDTO;
+import cn.xldeng.server.model.biz.item.ItemRespDTO;
+import cn.xldeng.server.model.biz.item.ItemSaveReqDTO;
+import cn.xldeng.server.service.ItemService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.websocket.server.PathParam;
+
+/**
+ * @program: threadpool
+ * @description:
+ * @author: dengxinlin
+ * @create: 2022-06-30 15:38
+ */
+@RestController
+@RequestMapping(Constants.BASE_PATH)
+public class ItemController {
+    @Resource
+    private ItemService itemService;
+
+    @PostMapping("/item/query/page")
+    public Result<IPage<ItemRespDTO>> queryItemPage(@RequestBody ItemQueryReqDTO reqDTO) {
+        return Results.success(itemService.queryItemPage(reqDTO));
+    }
+
+    @GetMapping("/item/query/{itemId}")
+    public Result queryItemById(@PathParam("itemId") String itemId) {
+        return Results.success(itemService.queryItemById(itemId));
+    }
+
+    @PostMapping("/item/save")
+    public Result saveItem(@RequestBody ItemSaveReqDTO reqDTO) {
+        itemService.saveItem(reqDTO);
+        return Results.success();
+    }
+
+    @DeleteMapping("/item/delete/{itemId}")
+    public Result deleteItem(@PathVariable("itemId") String itemId) {
+        //TODO delete item
+        return Results.success();
+    }
+}
