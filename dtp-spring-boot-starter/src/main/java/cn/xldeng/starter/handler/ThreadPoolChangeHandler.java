@@ -1,4 +1,4 @@
-package cn.xldeng.starter.tookit;
+package cn.xldeng.starter.handler;
 
 import cn.xldeng.common.enums.QueueTypeEnum;
 import cn.xldeng.starter.core.ResizableCapacityLinkedBlockingQueue;
@@ -15,7 +15,8 @@ import java.util.concurrent.TimeUnit;
  * @create: 2022-06-30 15:32
  */
 @Slf4j
-public class ThreadPoolChangeUtil {
+public class ThreadPoolChangeHandler {
+
     public static void changePool(ThreadPoolExecutor executor, Integer coreSize, Integer maxSize, Integer queueType, Integer capacity, Integer keepAliveTime) {
         if (coreSize != null) {
             executor.setCorePoolSize(coreSize);
