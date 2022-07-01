@@ -15,6 +15,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @program: threadpool
@@ -48,5 +49,12 @@ public class ThreadPoolServiceImpl implements ThreadPoolService {
     @Override
     public void saveOrUpdateThreadPoolConfig(ThreadPoolSaveOrUpdateReqDTO reqDTO) {
         configService.insertOrUpdate(BeanUtil.convert(reqDTO, ConfigAllInfo.class));
+    }
+
+    @Override
+    public List<ThreadPoolRespDTO> getThreadPoolByItemId(String itemId) {
+        List<ConfigAllInfo> selectList = configInfoMapper
+                .selectList(Wrappers.lambdaUpdate(ConfigAllInfo.class).eq(ConfigAllInfo::getItemId, itemId));
+        return BeanUtil.convert(selectList, ThreadPoolRespDTO.class);
     }
 }

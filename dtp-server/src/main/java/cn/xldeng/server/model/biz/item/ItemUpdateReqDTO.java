@@ -10,6 +10,9 @@ import lombok.Data;
  */
 @Data
 public class ItemUpdateReqDTO {
+
+    private String namespace;
+
     private String itemId;
 
     private String itemName;

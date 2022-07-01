@@ -5,6 +5,8 @@ import cn.xldeng.server.model.biz.threadpool.ThreadPoolRespDTO;
 import cn.xldeng.server.model.biz.threadpool.ThreadPoolSaveOrUpdateReqDTO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
+import java.util.List;
+
 /**
  * @program: threadpool
  * @description:
@@ -34,4 +36,6 @@ public interface ThreadPoolService {
      * @param reqDTO
      */
     void saveOrUpdateThreadPoolConfig(ThreadPoolSaveOrUpdateReqDTO reqDTO);
+
+    List<ThreadPoolRespDTO> getThreadPoolByItemId(String itemId);
 }

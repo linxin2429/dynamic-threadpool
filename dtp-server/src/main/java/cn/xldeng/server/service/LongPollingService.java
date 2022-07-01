@@ -1,6 +1,5 @@
 package cn.xldeng.server.service;
 
-import cn.xldeng.common.toolkit.Md5Util;
 import cn.xldeng.common.web.base.Results;
 import cn.xldeng.server.event.Event;
 import cn.xldeng.server.event.LocalDataChangeEvent;
@@ -215,7 +214,7 @@ public class LongPollingService {
             }
             HttpServletResponse response = (HttpServletResponse) asyncContext.getResponse();
             try {
-                String respStr = Md5Util.compareMd5ResultString(changedGroups);
+                String respStr = Md5ConfigUtil.compareMd5ResultString(changedGroups);
                 String resultStr = JSON.toJSONString(Results.success(respStr));
 
                 // Disable cache.
@@ -245,7 +244,8 @@ public class LongPollingService {
     private void generateResponse(HttpServletResponse response, List<String> changedGroups) {
         if (!CollectionUtils.isEmpty(changedGroups)) {
             try {
-                final String respString = JSON.toJSONString(Results.success(changedGroups));
+                final String changedGroupKeStr = Md5ConfigUtil.compareMd5ResultString(changedGroups);
+                final String respString = JSON.toJSONString(Results.success(changedGroupKeStr));
                 response.setHeader("Pragma", "no-cache");
                 response.setDateHeader("Expires", 0);
                 response.setHeader("Cache-Control", "no-cache,no-store");

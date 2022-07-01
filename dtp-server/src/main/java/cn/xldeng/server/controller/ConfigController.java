@@ -70,7 +70,6 @@ public class ConfigController {
             throw new IllegalArgumentException("invalid probeModify");
         }
         configServletInner.doPollingConfig(request, response, clientMd5Map, probeModify.length());
-        //TODO
     }
 
 }

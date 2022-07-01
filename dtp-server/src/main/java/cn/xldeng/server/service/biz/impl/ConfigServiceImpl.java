@@ -1,6 +1,7 @@
 package cn.xldeng.server.service.biz.impl;
 
 import cn.xldeng.common.toolkit.ContentUtil;
+import cn.xldeng.common.toolkit.Md5Util;
 import cn.xldeng.server.event.LocalDataChangeEvent;
 import cn.xldeng.server.mapper.ConfigInfoMapper;
 import cn.xldeng.server.model.ConfigAllInfo;
@@ -50,6 +51,8 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     private Integer addConfigInfo(ConfigAllInfo config) {
+        config.setContent(ContentUtil.getPoolContent(config));
+        config.setMd5(Md5Util.getTpContentMd5(config));
         try {
             if (SqlHelper.retBool(configInfoMapper.insert(config))) {
                 return config.getId();
@@ -66,6 +69,9 @@ public class ConfigServiceImpl implements ConfigService {
                 .eq(ConfigAllInfo::getTpId, config.getTpId())
                 .eq(ConfigAllInfo::getItemId, config.getItemId())
                 .eq(ConfigAllInfo::getNamespace, config.getNamespace());
+        config.setGmtCreate(null);
+        config.setContent(ContentUtil.getPoolContent(config));
+        config.setMd5(Md5Util.getTpContentMd5(config));
         try {
             configInfoMapper.update(config, wrapper);
         } catch (Exception ex) {

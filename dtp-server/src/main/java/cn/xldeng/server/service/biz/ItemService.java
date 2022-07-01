@@ -53,4 +53,12 @@ public interface ItemService {
      * @param reqDTO
      */
     void updateItem(ItemUpdateReqDTO reqDTO);
+
+    /**
+     * 删除项目
+     *
+     * @param namespace
+     * @param itemId
+     */
+    void deleteItem(String namespace, String itemId);
 }

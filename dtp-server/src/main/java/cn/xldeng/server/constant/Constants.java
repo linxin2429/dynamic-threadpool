@@ -12,7 +12,7 @@ public class Constants {
 
     public static final String CONFIG_CONTROLLER_PATH = BASE_PATH + "/configs";
 
-    public static final String LISTENING_CONFIGS = "Listening-Config";
+    public static final String LISTENING_CONFIGS = "Listening-Configs";
 
     public static final String ENCODE = "UTF-8";
 

@@ -8,6 +8,7 @@ import cn.xldeng.common.web.base.Result;
 import cn.xldeng.starter.core.CacheData;
 import cn.xldeng.starter.remote.HttpAgent;
 import com.alibaba.fastjson.JSON;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -79,7 +80,7 @@ public class ClientWorker {
         int longingTaskCount = (int) Math.ceil(listenerSize / perTaskConfigSize);
         if (longingTaskCount > currentLongingTaskCount) {
             for (int i = (int) currentLongingTaskCount; i < longingTaskCount; i++) {
-                executorService.execute(new LongPollingRunnable(i));
+                executorService.execute(new LongPollingRunnable());
             }
             currentLongingTaskCount = longingTaskCount;
         }
@@ -90,21 +91,25 @@ public class ClientWorker {
      */
     class LongPollingRunnable implements Runnable {
 
-        private final int taskId;
-
-        public LongPollingRunnable(int taskId) {
-            this.taskId = taskId;
+        @SneakyThrows
+        private void checkStatus(){
+            if (!isHealthServer){
+                log.error("[Check config] Error. exception message, Thread sleep 30 s.");
+                Thread.sleep(30000);
+            }
         }
 
         @Override
+        @SneakyThrows
         public void run() {
+            checkStatus();
+
             List<CacheData> cacheDataList = new ArrayList<>();
             List<CacheData> queryCacheDataList = new ArrayList<>(cacheMap.values());
 
             List<String> changedTpIds = checkUpdateDataIds(queryCacheDataList);
             if (!CollectionUtils.isEmpty(changedTpIds)) {
                 log.info("[dynamic threadPool] tpIds changed :: {}", changedTpIds);
-            } else {
                 for (String each : changedTpIds) {
                     String[] keys = StringUtils.split(each, Constants.GROUP_KEY_DELIMITER);
                     String namespace = keys[0];

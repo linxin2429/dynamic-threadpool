@@ -7,11 +7,14 @@ import cn.xldeng.server.service.ConfigCacheService;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import static cn.xldeng.common.constant.Constants.LINE_SEPARATOR;
+import static cn.xldeng.common.constant.Constants.WORD_SEPARATOR;
 /**
  * @program: threadpool
  * @description:
@@ -100,5 +103,30 @@ public class Md5ConfigUtil {
             GroupKey.urlEncode(tenant, sb);
         }
         return sb.toString();
+    }
+
+    public static String compareMd5ResultString(List<String> changedGroupKeys) throws IOException {
+        if (null == changedGroupKeys) {
+            return "";
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        for (String groupKey : changedGroupKeys) {
+            String[] dataIdGroupId = GroupKey.parseKey(groupKey);
+            sb.append(dataIdGroupId[0]);
+            sb.append(WORD_SEPARATOR);
+            sb.append(dataIdGroupId[1]);
+            // if have tenant, then set it
+            if (dataIdGroupId.length == 3) {
+                if (org.apache.commons.lang3.StringUtils.isNotBlank(dataIdGroupId[2])) {
+                    sb.append(WORD_SEPARATOR);
+                    sb.append(dataIdGroupId[2]);
+                }
+            }
+            sb.append(LINE_SEPARATOR);
+        }
+
+        return URLEncoder.encode(sb.toString(), "UTF-8");
     }
 }

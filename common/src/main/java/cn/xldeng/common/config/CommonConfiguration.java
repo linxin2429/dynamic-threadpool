@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CommonConfiguration {
     @Bean
-    public ApplicationContextHolder applicationContexHolder() {
+    public ApplicationContextHolder simpleApplicationContextHolder() {
         return new ApplicationContextHolder();
     }
 

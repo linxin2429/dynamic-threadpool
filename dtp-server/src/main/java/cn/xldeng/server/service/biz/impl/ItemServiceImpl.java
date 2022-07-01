@@ -1,15 +1,19 @@
 package cn.xldeng.server.service.biz.impl;
 
+import cn.xldeng.server.enums.DelEnum;
 import cn.xldeng.server.mapper.ItemInfoMapper;
 import cn.xldeng.server.model.ItemInfo;
 import cn.xldeng.server.model.biz.item.ItemQueryReqDTO;
 import cn.xldeng.server.model.biz.item.ItemRespDTO;
 import cn.xldeng.server.model.biz.item.ItemSaveReqDTO;
 import cn.xldeng.server.model.biz.item.ItemUpdateReqDTO;
+import cn.xldeng.server.model.biz.threadpool.ThreadPoolRespDTO;
 import cn.xldeng.server.service.biz.ItemService;
+import cn.xldeng.server.service.biz.ThreadPoolService;
 import cn.xldeng.server.toolkit.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
@@ -29,6 +33,8 @@ import java.util.List;
 public class ItemServiceImpl implements ItemService {
     @Resource
     private ItemInfoMapper itemInfoMapper;
+    @Resource
+    private ThreadPoolService threadPoolService;
 
     @Override
     public IPage<ItemRespDTO> queryItemPage(ItemQueryReqDTO reqDTO) {
@@ -79,10 +85,29 @@ public class ItemServiceImpl implements ItemService {
     public void updateItem(ItemUpdateReqDTO reqDTO) {
         ItemInfo itemInfo = BeanUtil.convert(reqDTO, ItemInfo.class);
         int updateResult = itemInfoMapper.update(itemInfo, Wrappers
-                .lambdaUpdate(ItemInfo.class).eq(ItemInfo::getItemId, reqDTO.getItemId()));
+                .lambdaUpdate(ItemInfo.class)
+                .eq(ItemInfo::getTenantId, reqDTO.getNamespace())
+                .eq(ItemInfo::getItemId, reqDTO.getItemId()));
         boolean retBool = SqlHelper.retBool(updateResult);
         if (!retBool) {
             throw new RuntimeException("修改失败.");
+        }
+    }
+
+    @Override
+    public void deleteItem(String namespace, String itemId) {
+        List<ThreadPoolRespDTO> itemList = threadPoolService.getThreadPoolByItemId(itemId);
+        if (CollectionUtils.isNotEmpty(itemList)) {
+            throw new RuntimeException("项目包含线程池引用, 删除失败.");
+        }
+        int updateResult = itemInfoMapper.update(new ItemInfo(),
+                Wrappers.lambdaUpdate(ItemInfo.class)
+                        .eq(ItemInfo::getTenantId, namespace)
+                        .eq(ItemInfo::getItemId, itemId)
+                        .set(ItemInfo::getDelFlag, DelEnum.DELETE.getIntCode()));
+        boolean retBool = SqlHelper.retBool(updateResult);
+        if (!retBool) {
+            throw new RuntimeException("删除失败.");
         }
     }
 }
