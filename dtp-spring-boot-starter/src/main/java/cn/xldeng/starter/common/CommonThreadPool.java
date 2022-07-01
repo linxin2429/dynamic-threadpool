@@ -1,7 +1,9 @@
 package cn.xldeng.starter.common;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
+import cn.xldeng.common.enums.QueueTypeEnum;
+import cn.xldeng.starter.builder.ThreadPoolBuilder;
+import cn.xldeng.starter.tookit.thread.RejectedPolicies;
+
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -13,20 +15,12 @@ import java.util.concurrent.TimeUnit;
  */
 public class CommonThreadPool {
     public static ThreadPoolExecutor getInstance(String threadPoolId) {
-        TimeUnit unit = TimeUnit.SECONDS;
-        BlockingQueue<Runnable> workQueue = new LinkedBlockingDeque<>(512);
-        return new ThreadPoolExecutor(
-                3,
-                5,
-                10000,
-                unit,
-                workQueue,
-                r -> {
-                    Thread thread = new Thread(r);
-                    thread.setDaemon(false);
-                    thread.setName(threadPoolId);
-                    return thread;
-                }
-        );
+        return ThreadPoolBuilder.builder()
+                .threadFactory(threadPoolId)
+                .poolThreadNum(3, 5)
+                .keepAliveTime(10000L, TimeUnit.SECONDS)
+                .rejected(RejectedPolicies.runsOldestTaskPolicy())
+                .workQueue(QueueTypeEnum.RESIZABLE_LINKED_BLOCKING_QUEUE, 512)
+                .build();
     }
 }

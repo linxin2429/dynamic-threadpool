@@ -110,6 +110,12 @@ public class ThreadPoolBuilder implements Builder<ThreadPoolExecutor> {
         return this;
     }
 
+    public ThreadPoolBuilder poolThreadNum(Integer corePoolNum, Integer maxPoolNum) {
+        this.corePoolNum = corePoolNum;
+        this.maxPoolNum = maxPoolNum;
+        return this;
+    }
+
     public ThreadPoolBuilder keepAliveTime(Long keepAliveTime) {
         this.keepAliveTime = keepAliveTime;
         return this;
@@ -120,7 +126,19 @@ public class ThreadPoolBuilder implements Builder<ThreadPoolExecutor> {
         return this;
     }
 
+    public ThreadPoolBuilder keepAliveTime(Long keepAliveTime, TimeUnit timeUnit) {
+        this.keepAliveTime = keepAliveTime;
+        this.timeUnit = timeUnit;
+        return this;
+    }
+
     public ThreadPoolBuilder capacity(Integer capacity) {
+        this.capacity = capacity;
+        return this;
+    }
+
+    public ThreadPoolBuilder workQueue(QueueTypeEnum queueType, Integer capacity) {
+        this.queueType = queueType;
         this.capacity = capacity;
         return this;
     }
