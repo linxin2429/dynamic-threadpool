@@ -5,3 +5,4 @@ spring:
       server-addr: http://localhost:6691
       namespace: prescription
       item-id: dynamic-threadpool-example
+      banner: true
