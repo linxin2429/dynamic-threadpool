@@ -1,7 +1,8 @@
 package cn.xldeng.starter.adapter;
 
-import cn.hutool.core.thread.ThreadFactoryBuilder;
 import cn.xldeng.common.config.ApplicationContextHolder;
+import cn.xldeng.common.enums.QueueTypeEnum;
+import cn.xldeng.starter.builder.ThreadPoolBuilder;
 import cn.xldeng.starter.operation.ThreadPoolOperation;
 import cn.xldeng.starter.wrap.DynamicThreadPoolWrap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -26,15 +26,14 @@ public class ThreadPoolConfigAdapter extends ConfigAdapter {
     @Autowired
     private ThreadPoolOperation threadPoolOperation;
 
-    private ExecutorService executorService = new ThreadPoolExecutor(
-            2,
-            4,
-            0,
-            TimeUnit.MILLISECONDS,
-            new ArrayBlockingQueue<>(1),
-            new ThreadFactoryBuilder().setNamePrefix("threadPool-config").build(),
-            new ThreadPoolExecutor.DiscardOldestPolicy()
-    );
+    private ExecutorService executorService = ThreadPoolBuilder.builder()
+            .poolThreadNum(2, 4)
+            .keepAliveTime(0L, TimeUnit.MILLISECONDS)
+            .workQueue(QueueTypeEnum.ARRAY_BLOCKING_QUEUE, 1)
+            .threadFactory("threadPool-config")
+            .rejected(new ThreadPoolExecutor.DiscardOldestPolicy())
+            .build();
+
 
     @Order(1025)
     @PostConstruct
