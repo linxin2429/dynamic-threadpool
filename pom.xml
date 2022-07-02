@@ -31,6 +31,9 @@
         <module>dtp-server</module>
         <module>dtp-example</module>
         <module>common</module>
+        <module>register</module>
+        <module>config</module>
+        <module>alarm</module>
     </modules>
 
     <dependencyManagement>
@@ -77,6 +80,21 @@
             <dependency>
                 <groupId>cn.xldeng</groupId>
                 <artifactId>common</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.xldeng</groupId>
+                <artifactId>config</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.xldeng</groupId>
+                <artifactId>register</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.xldeng</groupId>
+                <artifactId>alarm</artifactId>
                 <version>${revision}</version>
             </dependency>
 

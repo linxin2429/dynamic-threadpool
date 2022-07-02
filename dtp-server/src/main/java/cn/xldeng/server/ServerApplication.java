@@ -10,12 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author: dengxinlin
  * @create: 2022-06-27 01:28
  */
-@SpringBootApplication(
-        scanBasePackages = {
-                "cn.xldeng.server", "cn.xldeng.common.config"
-        }
-)
-@MapperScan("cn.xldeng.server.mapper")
+@MapperScan("cn.xldeng.config.mapper")
+@SpringBootApplication(scanBasePackages = "cn.xldeng")
 public class ServerApplication {
     public static void main(String[] args) {
         SpringApplication.run(ServerApplication.class, args);

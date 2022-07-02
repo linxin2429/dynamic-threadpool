@@ -9,24 +9,23 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dtp-server</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>register</artifactId>
 
     <name>${project.artifactId}</name>
     <description>${project.artifactId}</description>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
 
         <dependency>
-            <groupId>cn.xldeng</groupId>
-            <artifactId>register</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.xldeng</groupId>
-            <artifactId>config</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
