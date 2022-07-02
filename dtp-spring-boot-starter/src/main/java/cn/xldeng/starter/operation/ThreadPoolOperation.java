@@ -35,7 +35,7 @@ public class ThreadPoolOperation {
                 threadPoolSubscribeCallback.callback(configInfo);
             }
         };
-        configService.addListener(properties.getNamespace(), properties.getItemId(), tpId, listener);
+        configService.addListener(properties.getTenantId(), properties.getItemId(), tpId, listener);
         return listener;
     }
 }

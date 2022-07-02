@@ -1,4 +1,4 @@
-package cn.xldeng.config.controller;
+package cn.xldeng.consol.controller;
 
 import cn.xldeng.common.constant.Constants;
 import cn.xldeng.common.web.base.Result;

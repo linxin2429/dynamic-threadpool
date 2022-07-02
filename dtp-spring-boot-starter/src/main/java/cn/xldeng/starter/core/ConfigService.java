@@ -12,12 +12,12 @@ public interface ConfigService {
     /**
      * 添加监听器, 如果服务端发生变更, 客户端会使用监听器进行回调
      *
-     * @param namespace namespace
-     * @param itemId    itemId
-     * @param tpId      tpId
-     * @param listener  listener
+     * @param tenantId tenantId
+     * @param itemId   itemId
+     * @param tpId     tpId
+     * @param listener listener
      */
-    void addListener(String namespace, String itemId, String tpId, Listener listener);
+    void addListener(String tenantId, String itemId, String tpId, Listener listener);
 
 
     /**

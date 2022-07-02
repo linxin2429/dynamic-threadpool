@@ -4,9 +4,9 @@ import cn.xldeng.common.config.ApplicationContextHolder;
 import cn.xldeng.common.constant.Constants;
 import cn.xldeng.common.model.PoolParameterInfo;
 import cn.xldeng.common.web.base.Result;
+import cn.xldeng.starter.banner.DynamicThreadPoolBanner;
 import cn.xldeng.starter.common.CommonThreadPool;
 import cn.xldeng.starter.config.DynamicThreadPoolProperties;
-import cn.xldeng.starter.banner.DynamicThreadPoolBanner;
 import cn.xldeng.starter.core.GlobalThreadPoolManage;
 import cn.xldeng.starter.remote.HttpAgent;
 import cn.xldeng.starter.remote.ServerHttpAgent;
@@ -53,7 +53,7 @@ public class ThreadPoolRunListener {
             Map<String, String> queryStrMap = new HashMap<>(3);
             queryStrMap.put("tpId", val.getTpId());
             queryStrMap.put("itemId", dynamicThreadPoolProperties.getItemId());
-            queryStrMap.put("namespace", dynamicThreadPoolProperties.getNamespace());
+            queryStrMap.put("namespace", dynamicThreadPoolProperties.getTenantId());
 
             PoolParameterInfo ppi = new PoolParameterInfo();
             HttpAgent httpAgent = new ServerHttpAgent(dynamicThreadPoolProperties);

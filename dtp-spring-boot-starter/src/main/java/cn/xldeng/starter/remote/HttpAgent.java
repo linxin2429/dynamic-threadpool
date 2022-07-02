@@ -21,7 +21,7 @@ public interface HttpAgent {
      *
      * @return nameSpace
      */
-    String getNameSpace();
+    String getTenantId();
 
     /**
      * 获取编码集

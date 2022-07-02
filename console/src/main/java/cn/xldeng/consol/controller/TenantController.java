@@ -1,4 +1,4 @@
-package cn.xldeng.config.controller;
+package cn.xldeng.consol.controller;
 
 import cn.xldeng.common.constant.Constants;
 import cn.xldeng.common.web.base.Result;
@@ -20,36 +20,36 @@ import javax.annotation.Resource;
  * @create: 2022-06-30 16:55
  */
 @RestController
-@RequestMapping(Constants.BASE_PATH)
+@RequestMapping(Constants.BASE_PATH + "/tenant")
 public class TenantController {
     @Resource
     private TenantService tenantService;
 
-    @PostMapping("/namespace/query/page")
+    @PostMapping("/query/page")
     public Result<IPage<TenantRespDTO>> queryNameSpacePage(@RequestBody TenantQueryReqDTO reqDTO) {
-        return Results.success(tenantService.queryNameSpacePage(reqDTO));
+        return Results.success(tenantService.queryTenantPage(reqDTO));
     }
 
-    @GetMapping("/namespace/query/{namespaceId}")
-    public Result<TenantRespDTO> queryNameSpace(@PathVariable("namespaceId") String namespaceId) {
-        return Results.success(tenantService.getNameSpaceById(namespaceId));
+    @GetMapping("/query/{tenantId}")
+    public Result<TenantRespDTO> queryNameSpace(@PathVariable("tenantId") String tenantId) {
+        return Results.success(tenantService.getTenantById(tenantId));
     }
 
-    @PostMapping("/namespace/save")
+    @PostMapping("/save")
     public Result saveNameSpace(@RequestBody TenantSaveReqDTO reqDTO) {
-        tenantService.saveNameSpace(reqDTO);
+        tenantService.saveTenant(reqDTO);
         return Results.success();
     }
 
-    @PostMapping("/namespace/update")
+    @PostMapping("/update")
     public Result updateNameSpace(@RequestBody TenantUpdateReqDTO reqDTO) {
-        tenantService.updateNameSpace(reqDTO);
+        tenantService.updateTenant(reqDTO);
         return Results.success();
     }
 
-    @DeleteMapping("/namespace/delete/{namespaceId}")
-    public Result deleteNameSpace(@PathVariable("namespaceId") String namespaceId) {
-        tenantService.deleteNameSpaceById(namespaceId);
+    @DeleteMapping("/delete/{tenantId}")
+    public Result deleteNameSpace(@PathVariable("tenantId") String tenantId) {
+        tenantService.deleteTenantById(tenantId);
         return Results.success();
     }
 }

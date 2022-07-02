@@ -34,6 +34,7 @@
         <module>register</module>
         <module>config</module>
         <module>alarm</module>
+        <module>console</module>
     </modules>
 
     <dependencyManagement>
@@ -97,7 +98,11 @@
                 <artifactId>alarm</artifactId>
                 <version>${revision}</version>
             </dependency>
-
+            <dependency>
+                <groupId>cn.xldeng</groupId>
+                <artifactId>console</artifactId>
+                <version>${revision}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>

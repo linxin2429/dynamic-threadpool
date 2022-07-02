@@ -13,7 +13,7 @@ public class ThreadPoolSaveOrUpdateReqDTO {
     /**
      * namespace
      */
-    private String namespace;
+    private String tenantId;
 
     /**
      * TpId

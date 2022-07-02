@@ -1,7 +1,7 @@
 package cn.xldeng.starter.remote;
 
-import cn.xldeng.common.web.base.Result;
 import cn.xldeng.common.config.ApplicationContextHolder;
+import cn.xldeng.common.web.base.Result;
 import cn.xldeng.starter.config.DynamicThreadPoolProperties;
 import cn.xldeng.starter.tookit.HttpClientUtil;
 
@@ -32,8 +32,8 @@ public class ServerHttpAgent implements HttpAgent {
     }
 
     @Override
-    public String getNameSpace() {
-        return dynamicThreadPoolProperties.getNamespace();
+    public String getTenantId() {
+        return dynamicThreadPoolProperties.getTenantId();
     }
 
     @Override

@@ -24,10 +24,10 @@ public class ConfigInfoBase implements Serializable {
     @TableId(type = IdType.AUTO)
     private Integer id;
     /**
-     * namespace
+     * tenantId
      */
     @TableField(value = "tenant_id")
-    private String namespace;
+    private String tenantId;
     /**
      * TpId
      */

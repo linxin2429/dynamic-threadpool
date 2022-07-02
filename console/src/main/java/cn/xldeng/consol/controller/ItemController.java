@@ -1,4 +1,4 @@
-package cn.xldeng.config.controller;
+package cn.xldeng.consol.controller;
 
 import cn.xldeng.common.constant.Constants;
 import cn.xldeng.common.web.base.Result;
@@ -31,9 +31,9 @@ public class ItemController {
         return Results.success(itemService.queryItemPage(reqDTO));
     }
 
-    @GetMapping("/item/query/{namespace}/{itemId}")
-    public Result queryItemById(@PathParam("namespace") String namespace,@PathParam("itemId") String itemId) {
-        return Results.success(itemService.queryItemById(namespace,itemId));
+    @GetMapping("/item/query/{tenantId}/{itemId}")
+    public Result queryItemById(@PathParam("tenantId") String tenantId, @PathParam("itemId") String itemId) {
+        return Results.success(itemService.queryItemById(tenantId, itemId));
     }
 
     @PostMapping("/item/save")
@@ -48,9 +48,9 @@ public class ItemController {
         return Results.success();
     }
 
-    @DeleteMapping("/item/delete/{namespace}/{itemId}")
-    public Result deleteItem(@PathVariable("namespace") String namespace, @PathVariable("itemId") String itemId) {
-        itemService.deleteItem(namespace, itemId);
+    @DeleteMapping("/item/delete/{tenantId}/{itemId}")
+    public Result deleteItem(@PathVariable("tenantId") String tenantId, @PathVariable("itemId") String itemId) {
+        itemService.deleteItem(tenantId, itemId);
         return Results.success();
     }
 }

@@ -5,32 +5,20 @@
     <parent>
         <artifactId>dtp-all</artifactId>
         <groupId>cn.xldeng</groupId>
-        <version>${revision}</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dtp-server</artifactId>
+    <artifactId>console</artifactId>
     <packaging>jar</packaging>
-
     <name>${project.artifactId}</name>
     <description>${project.artifactId}</description>
-
     <dependencies>
-
-        <dependency>
-            <groupId>cn.xldeng</groupId>
-            <artifactId>register</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.xldeng</groupId>
-            <artifactId>console</artifactId>
-        </dependency>
         <dependency>
             <groupId>cn.xldeng</groupId>
             <artifactId>config</artifactId>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -39,5 +27,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

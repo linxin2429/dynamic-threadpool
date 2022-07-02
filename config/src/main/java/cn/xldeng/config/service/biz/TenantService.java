@@ -15,39 +15,39 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 public interface TenantService {
 
     /**
-     * 根据 Id 获取业务线
+     * 根据 Id 获取租户
      *
-     * @param namespaceId
+     * @param tenantId
      * @return
      */
-    TenantRespDTO getNameSpaceById(String namespaceId);
+    TenantRespDTO getTenantById(String tenantId);
 
     /**
-     * 分页查询业务线
+     * 分页查询租户
      *
      * @param reqDTO
      * @return
      */
-    IPage<TenantRespDTO> queryNameSpacePage(TenantQueryReqDTO reqDTO);
+    IPage<TenantRespDTO> queryTenantPage(TenantQueryReqDTO reqDTO);
 
     /**
-     * 新增业务线
+     * 新增租户
      *
      * @param reqDTO
      */
-    void saveNameSpace(TenantSaveReqDTO reqDTO);
+    void saveTenant(TenantSaveReqDTO reqDTO);
 
     /**
-     * 修改业务线
+     * 修改租户
      *
      * @param reqDTO
      */
-    void updateNameSpace(TenantUpdateReqDTO reqDTO);
+    void updateTenant(TenantUpdateReqDTO reqDTO);
 
     /**
-     * 根据 Id 删除业务线
+     * 根据 Id 删除租户
      *
-     * @param namespaceId
+     * @param tenantId
      */
-    void deleteNameSpaceById(String namespaceId);
+    void deleteTenantById(String tenantId);
 }

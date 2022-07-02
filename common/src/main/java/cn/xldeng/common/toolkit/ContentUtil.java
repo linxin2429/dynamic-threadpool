@@ -15,7 +15,7 @@ public class ContentUtil {
 
     public static String getPoolContent(PoolParameter parameter){
         PoolParameterInfo poolInfo = new PoolParameterInfo();
-        poolInfo.setNamespace(parameter.getNamespace());
+        poolInfo.setTenantId(parameter.getTenantId());
         poolInfo.setItemId(parameter.getItemId());
         poolInfo.setTpId(parameter.getTpId());
         poolInfo.setCoreSize(parameter.getCoreSize());
@@ -34,6 +34,6 @@ public class ContentUtil {
                 Constants.GROUP_KEY_DELIMITER +
                 parameter.getItemId() +
                 Constants.GROUP_KEY_DELIMITER +
-                parameter.getNamespace();
+                parameter.getTenantId();
     }
 }

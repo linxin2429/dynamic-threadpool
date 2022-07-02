@@ -140,7 +140,7 @@ public class ClientWorker {
             sb.append(cacheData.tpId).append(Constants.WORD_SEPARATOR);
             sb.append(cacheData.itemId).append(Constants.WORD_SEPARATOR);
             sb.append(cacheData.getMd5()).append(Constants.WORD_SEPARATOR);
-            sb.append(cacheData.namespace).append(Constants.LINE_SEPARATOR);
+            sb.append(cacheData.tenantId).append(Constants.LINE_SEPARATOR);
         }
 
         return checkUpdateTpIds(sb.toString());

@@ -1,10 +1,10 @@
 package cn.xldeng.starter.core;
 
 import cn.xldeng.starter.config.DynamicThreadPoolProperties;
-import cn.xldeng.starter.remote.HttpAgent;
-import cn.xldeng.starter.remote.ServerHttpAgent;
 import cn.xldeng.starter.listener.ClientWorker;
 import cn.xldeng.starter.listener.Listener;
+import cn.xldeng.starter.remote.HttpAgent;
+import cn.xldeng.starter.remote.ServerHttpAgent;
 
 import java.util.Collections;
 
@@ -26,8 +26,8 @@ public class ThreadPoolConfigService implements ConfigService {
     }
 
     @Override
-    public void addListener(String namespace, String itemId, String tpId, Listener listener) {
-        clientWorker.addTenantListeners(namespace, itemId, tpId, Collections.singletonList(listener));
+    public void addListener(String tenantId, String itemId, String tpId, Listener listener) {
+        clientWorker.addTenantListeners(tenantId, itemId, tpId, Collections.singletonList(listener));
     }
 
     @Override

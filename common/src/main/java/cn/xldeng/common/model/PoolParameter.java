@@ -12,7 +12,7 @@ public interface PoolParameter {
      *
      * @return
      */
-    String getNamespace();
+    String getTenantId();
 
     /**
      * itemId

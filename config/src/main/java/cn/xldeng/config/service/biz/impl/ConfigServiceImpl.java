@@ -32,11 +32,11 @@ public class ConfigServiceImpl implements ConfigService {
 
 
     @Override
-    public ConfigAllInfo findConfigAllInfo(String tpId, String itemId, String namespace) {
+    public ConfigAllInfo findConfigAllInfo(String tpId, String itemId, String tenantId) {
         LambdaQueryWrapper<ConfigAllInfo> wrapper = Wrappers.lambdaQuery(ConfigAllInfo.class)
                 .eq(!StringUtils.isBlank(tpId), ConfigAllInfo::getTpId, tpId)
                 .eq(!StringUtils.isBlank(itemId), ConfigAllInfo::getItemId, itemId)
-                .eq(!StringUtils.isBlank(namespace), ConfigAllInfo::getNamespace, namespace);
+                .eq(!StringUtils.isBlank(tenantId), ConfigAllInfo::getTenantId, tenantId);
         return configInfoMapper.selectOne(wrapper);
     }
 
@@ -68,7 +68,7 @@ public class ConfigServiceImpl implements ConfigService {
         LambdaUpdateWrapper<ConfigAllInfo> wrapper = Wrappers.lambdaUpdate(ConfigAllInfo.class)
                 .eq(ConfigAllInfo::getTpId, config.getTpId())
                 .eq(ConfigAllInfo::getItemId, config.getItemId())
-                .eq(ConfigAllInfo::getNamespace, config.getNamespace());
+                .eq(ConfigAllInfo::getTenantId, config.getTenantId());
         config.setGmtCreate(null);
         config.setContent(ContentUtil.getPoolContent(config));
         config.setMd5(Md5Util.getTpContentMd5(config));
