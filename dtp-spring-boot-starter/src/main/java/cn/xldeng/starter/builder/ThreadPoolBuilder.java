@@ -174,7 +174,7 @@ public class ThreadPoolBuilder implements Builder<ThreadPoolExecutor> {
         return new ThreadPoolBuilder();
     }
 
-    public static ThreadPoolExecutor buildPool(ThreadPoolBuilder builder) {
+    private static ThreadPoolExecutor buildPool(ThreadPoolBuilder builder) {
         return AbstractBuildThreadPoolTemplate.buildPool(buildInitParam(builder));
     }
 
@@ -195,7 +195,7 @@ public class ThreadPoolBuilder implements Builder<ThreadPoolExecutor> {
         return initParam;
     }
 
-    public static ThreadPoolExecutor buildFastPool(ThreadPoolBuilder builder) {
+    private static ThreadPoolExecutor buildFastPool(ThreadPoolBuilder builder) {
         return AbstractBuildThreadPoolTemplate.buildFastPool(buildInitParam(builder));
     }
 }
