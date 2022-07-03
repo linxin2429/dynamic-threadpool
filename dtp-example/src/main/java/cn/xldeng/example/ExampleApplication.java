@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author: dengxinlin
  * @create: 2022-06-28 17:49
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "cn.xldeng")
 public class ExampleApplication {
     public static void main(String[] args) {
         SpringApplication.run(ExampleApplication.class, args);
