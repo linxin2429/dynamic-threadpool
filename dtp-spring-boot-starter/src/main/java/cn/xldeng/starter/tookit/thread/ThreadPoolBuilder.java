@@ -178,13 +178,13 @@ public class ThreadPoolBuilder implements Builder<ThreadPoolExecutor> {
     @Override
     public ThreadPoolExecutor build() {
         if (isCustomPool) {
-            return buildCustomPool();
+            return buildCustomPool(this);
         }
         return isFastPool ? buildFastPool(this) : buildPool(this);
     }
 
-    private ThreadPoolExecutor buildCustomPool() {
-        return AbstractBuildThreadPoolTemplate.buildCustomPool(buildInitParam(builder()));
+    private ThreadPoolExecutor buildCustomPool(ThreadPoolBuilder builder) {
+        return AbstractBuildThreadPoolTemplate.buildCustomPool(buildInitParam(builder));
     }
 
     /**

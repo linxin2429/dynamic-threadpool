@@ -78,8 +78,8 @@ public class AbstractBuildThreadPoolTemplate {
                 initParam.getCorePoolNum(),
                 initParam.getMaxPoolNum(),
                 initParam.getKeepAliveTime(),
-                initParam.getTimeUnit()
-                , initParam.getWorkQueue(),
+                initParam.getTimeUnit(),
+                initParam.getWorkQueue(),
                 initParam.getThreadFactory(),
                 initParam.getRejectedExecutionHandler()
         );

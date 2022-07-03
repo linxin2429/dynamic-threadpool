@@ -1,5 +1,6 @@
 package cn.xldeng.starter.wrap;
 
+import cn.xldeng.starter.common.CommonThreadPool;
 import lombok.Data;
 
 import java.util.concurrent.Callable;
@@ -28,7 +29,7 @@ public class DynamicThreadPoolWrap {
      * @param threadPoolId threadPoolId
      */
     public DynamicThreadPoolWrap(String threadPoolId) {
-        this(threadPoolId, null);
+        this(threadPoolId, CommonThreadPool.getInstance(threadPoolId));
     }
 
     /**

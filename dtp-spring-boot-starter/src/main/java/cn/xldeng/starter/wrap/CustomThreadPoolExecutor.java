@@ -1,5 +1,6 @@
 package cn.xldeng.starter.wrap;
 
+import lombok.Getter;
 import org.apache.tomcat.util.threads.ThreadPoolExecutor;
 
 import java.security.AccessControlContext;
@@ -21,10 +22,11 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author dengxinlin
  * @date 2022/07/03 11:06:05
  */
+@Getter
 public class CustomThreadPoolExecutor extends ThreadPoolExecutor {
 
     private final AtomicInteger rejectCount = new AtomicInteger();
-    private final AtomicInteger ctl = new AtomicInteger();
+    private final AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0));
 
     /**
      * 32位二进制数，30-32位表示线程池状态，1-29位表示worker数量
