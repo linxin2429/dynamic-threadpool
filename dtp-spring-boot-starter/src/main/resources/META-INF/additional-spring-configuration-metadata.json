@@ -13,7 +13,7 @@
       "description": "dynamic thread-pool enabled."
     },
     {
-      "name": "spring.dynamic.thread-pool.namespace",
+      "name": "spring.dynamic.thread-pool.tenant-id",
       "type": "java.lang.String",
       "defaultValue": "public",
       "description": "dynamic thread-pool namespace."
