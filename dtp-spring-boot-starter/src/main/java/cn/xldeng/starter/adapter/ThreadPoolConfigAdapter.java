@@ -2,8 +2,8 @@ package cn.xldeng.starter.adapter;
 
 import cn.xldeng.common.config.ApplicationContextHolder;
 import cn.xldeng.common.enums.QueueTypeEnum;
-import cn.xldeng.starter.builder.ThreadPoolBuilder;
 import cn.xldeng.starter.operation.ThreadPoolOperation;
+import cn.xldeng.starter.tookit.thread.ThreadPoolBuilder;
 import cn.xldeng.starter.wrap.DynamicThreadPoolWrap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -26,8 +26,8 @@ public class ThreadPoolConfigAdapter extends ConfigAdapter {
     @Autowired
     private ThreadPoolOperation threadPoolOperation;
 
-    private ExecutorService executorService = ThreadPoolBuilder.builder()
-            .poolThreadNum(2, 4)
+    private final ExecutorService executorService = ThreadPoolBuilder.builder()
+            .poolThreadSize(2, 4)
             .keepAliveTime(0L, TimeUnit.MILLISECONDS)
             .workQueue(QueueTypeEnum.ARRAY_BLOCKING_QUEUE, 1)
             .threadFactory("threadPool-config")

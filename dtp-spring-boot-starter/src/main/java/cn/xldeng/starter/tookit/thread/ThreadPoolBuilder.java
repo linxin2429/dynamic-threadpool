@@ -1,10 +1,10 @@
-package cn.xldeng.starter.builder;
+package cn.xldeng.starter.tookit.thread;
 
 
 import cn.xldeng.common.enums.QueueTypeEnum;
 import cn.xldeng.common.toolkit.Assert;
+import cn.xldeng.starter.builder.Builder;
 import cn.xldeng.starter.tookit.BlockingQueueUtil;
-import cn.xldeng.starter.tookit.thread.AbstractBuildThreadPoolTemplate;
 
 import java.math.BigDecimal;
 import java.util.concurrent.*;
@@ -24,19 +24,24 @@ public class ThreadPoolBuilder implements Builder<ThreadPoolExecutor> {
     private boolean isFastPool;
 
     /**
+     * 是否自定义线程池
+     */
+    private boolean isCustomPool;
+
+    /**
      * 核心线程数量
      */
-    private Integer corePoolNum = calculateCoreNum();
+    private int corePoolSize = calculateCoreNum();
 
     /**
      * 最大线程数量
      */
-    private Integer maxPoolNum = corePoolNum + (corePoolNum >> 1);
+    private int maxPoolSize = corePoolSize + (corePoolSize >> 1);
 
     /**
      * 线程存活时间
      */
-    private Long keepAliveTime = 30000L;
+    private long keepAliveTime = 30000L;
 
     /**
      * 线程存活时间单位
@@ -46,7 +51,7 @@ public class ThreadPoolBuilder implements Builder<ThreadPoolExecutor> {
     /**
      * 队列最大容量
      */
-    private Integer capacity = 512;
+    private int capacity = 512;
 
     /**
      * 队列类型枚举
@@ -56,7 +61,7 @@ public class ThreadPoolBuilder implements Builder<ThreadPoolExecutor> {
     /**
      * 阻塞队列
      */
-    private final BlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>(capacity);
+    private BlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>(capacity);
 
     /**
      * 线程池任务满时拒绝任务策略
@@ -89,6 +94,11 @@ public class ThreadPoolBuilder implements Builder<ThreadPoolExecutor> {
         return this;
     }
 
+    public ThreadPoolBuilder isCustomPool(Boolean isCustomPool) {
+        this.isCustomPool = isCustomPool;
+        return this;
+    }
+
     public ThreadPoolBuilder threadFactory(String threadNamePrefix) {
         this.threadNamePrefix = threadNamePrefix;
         return this;
@@ -100,23 +110,23 @@ public class ThreadPoolBuilder implements Builder<ThreadPoolExecutor> {
         return this;
     }
 
-    public ThreadPoolBuilder corePoolNum(Integer corePoolNum) {
-        this.corePoolNum = corePoolNum;
+    public ThreadPoolBuilder corePoolSize(int corePoolNum) {
+        this.corePoolSize = corePoolNum;
         return this;
     }
 
-    public ThreadPoolBuilder maxPoolNum(Integer maxPoolNum) {
-        this.maxPoolNum = maxPoolNum;
+    public ThreadPoolBuilder maxPoolSize(int maxPoolSize) {
+        this.maxPoolSize = maxPoolSize;
         return this;
     }
 
-    public ThreadPoolBuilder poolThreadNum(Integer corePoolNum, Integer maxPoolNum) {
-        this.corePoolNum = corePoolNum;
-        this.maxPoolNum = maxPoolNum;
+    public ThreadPoolBuilder poolThreadSize(int corePoolSize, int maxPoolSize) {
+        this.corePoolSize = corePoolSize;
+        this.maxPoolSize = maxPoolSize;
         return this;
     }
 
-    public ThreadPoolBuilder keepAliveTime(Long keepAliveTime) {
+    public ThreadPoolBuilder keepAliveTime(long keepAliveTime) {
         this.keepAliveTime = keepAliveTime;
         return this;
     }
@@ -126,18 +136,18 @@ public class ThreadPoolBuilder implements Builder<ThreadPoolExecutor> {
         return this;
     }
 
-    public ThreadPoolBuilder keepAliveTime(Long keepAliveTime, TimeUnit timeUnit) {
+    public ThreadPoolBuilder keepAliveTime(long keepAliveTime, TimeUnit timeUnit) {
         this.keepAliveTime = keepAliveTime;
         this.timeUnit = timeUnit;
         return this;
     }
 
-    public ThreadPoolBuilder capacity(Integer capacity) {
+    public ThreadPoolBuilder capacity(int capacity) {
         this.capacity = capacity;
         return this;
     }
 
-    public ThreadPoolBuilder workQueue(QueueTypeEnum queueType, Integer capacity) {
+    public ThreadPoolBuilder workQueue(QueueTypeEnum queueType, int capacity) {
         this.queueType = queueType;
         this.capacity = capacity;
         return this;
@@ -160,9 +170,21 @@ public class ThreadPoolBuilder implements Builder<ThreadPoolExecutor> {
         return this;
     }
 
+    public ThreadPoolBuilder workQueue(BlockingQueue workQueue) {
+        this.workQueue = workQueue;
+        return this;
+    }
+
     @Override
     public ThreadPoolExecutor build() {
+        if (isCustomPool) {
+            return buildCustomPool();
+        }
         return isFastPool ? buildFastPool(this) : buildPool(this);
+    }
+
+    private ThreadPoolExecutor buildCustomPool() {
+        return AbstractBuildThreadPoolTemplate.buildCustomPool(buildInitParam(builder()));
     }
 
     /**
@@ -182,15 +204,17 @@ public class ThreadPoolBuilder implements Builder<ThreadPoolExecutor> {
         Assert.notEmpty(builder.threadNamePrefix, "线程名称前缀不可为空或空的字符串.");
         AbstractBuildThreadPoolTemplate.ThreadPoolInitParam initParam =
                 new AbstractBuildThreadPoolTemplate.ThreadPoolInitParam(builder.threadNamePrefix, builder.isDaemon);
-        initParam.setCorePoolNum(builder.corePoolNum)
-                .setMaxPoolNum(builder.maxPoolNum)
+        initParam.setCorePoolNum(builder.corePoolSize)
+                .setMaxPoolNum(builder.maxPoolSize)
                 .setKeepAliveTime(builder.keepAliveTime)
                 .setCapacity(builder.capacity)
                 .setRejectedExecutionHandler(builder.rejectedExecutionHandler)
                 .setTimeUnit(builder.timeUnit);
         if (!builder.isFastPool) {
-            BlockingQueue<Runnable> blockingQueue = BlockingQueueUtil.createBlockingQueue(builder.queueType.type, builder.capacity);
-            initParam.setWorkQueue(blockingQueue);
+            if (builder.workQueue == null) {
+                builder.workQueue = BlockingQueueUtil.createBlockingQueue(builder.queueType.type, builder.capacity);
+            }
+            initParam.setWorkQueue(builder.workQueue);
         }
         return initParam;
     }

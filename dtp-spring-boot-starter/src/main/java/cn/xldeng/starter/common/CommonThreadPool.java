@@ -1,8 +1,8 @@
 package cn.xldeng.starter.common;
 
 import cn.xldeng.common.enums.QueueTypeEnum;
-import cn.xldeng.starter.builder.ThreadPoolBuilder;
 import cn.xldeng.starter.tookit.thread.RejectedPolicies;
+import cn.xldeng.starter.tookit.thread.ThreadPoolBuilder;
 
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -17,7 +17,7 @@ public class CommonThreadPool {
     public static ThreadPoolExecutor getInstance(String threadPoolId) {
         return ThreadPoolBuilder.builder()
                 .threadFactory(threadPoolId)
-                .poolThreadNum(3, 5)
+                .poolThreadSize(3, 5)
                 .keepAliveTime(10000L, TimeUnit.SECONDS)
                 .rejected(RejectedPolicies.runsOldestTaskPolicy())
                 .workQueue(QueueTypeEnum.RESIZABLE_LINKED_BLOCKING_QUEUE, 512)

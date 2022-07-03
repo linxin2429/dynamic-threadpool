@@ -12,6 +12,8 @@ import cn.xldeng.starter.remote.HttpAgent;
 import cn.xldeng.starter.remote.ServerHttpAgent;
 import cn.xldeng.starter.tookit.BlockingQueueUtil;
 import cn.xldeng.starter.tookit.HttpClientUtil;
+import cn.xldeng.starter.tookit.thread.ThreadPoolBuilder;
+import cn.xldeng.starter.wrap.CustomThreadPoolExecutor;
 import cn.xldeng.starter.wrap.DynamicThreadPoolWrap;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -50,33 +52,35 @@ public class ThreadPoolRunListener {
         Map<String, DynamicThreadPoolWrap> executorMap =
                 ApplicationContextHolder.getBeansOfType(DynamicThreadPoolWrap.class);
         executorMap.forEach((key, val) -> {
+            String tpId = val.getTpId();
             Map<String, String> queryStrMap = new HashMap<>(3);
-            queryStrMap.put("tpId", val.getTpId());
+            queryStrMap.put("tpId", tpId);
             queryStrMap.put("itemId", dynamicThreadPoolProperties.getItemId());
             queryStrMap.put("namespace", dynamicThreadPoolProperties.getTenantId());
 
             PoolParameterInfo ppi = new PoolParameterInfo();
             HttpAgent httpAgent = new ServerHttpAgent(dynamicThreadPoolProperties);
-            Result result = null;
+            Result result;
             try {
                 result = httpAgent.httpGet(Constants.CONFIG_CONTROLLER_PATH, null, queryStrMap, 3000L);
-                if (result.isSuccess() && (ppi = JSON.toJavaObject((JSON) result.getData(), PoolParameterInfo.class)) != null) {
+                if (result.isSuccess() && result.getData() != null && (ppi = JSON.toJavaObject((JSON) result.getData(), PoolParameterInfo.class)) != null) {
                     TimeUnit unit = TimeUnit.SECONDS;
                     BlockingQueue<Runnable> workQueue = BlockingQueueUtil.createBlockingQueue(ppi.getQueueType(), ppi.getCapacity());
-                    ThreadPoolExecutor resultTpe =
-                            new ThreadPoolExecutor(ppi.getCoreSize(),
-                                    ppi.getMaxSize(),
-                                    ppi.getKeepAliveTime(),
-                                    unit,
-                                    workQueue
-                            );
-                    val.setPool(resultTpe);
+                    ThreadPoolExecutor poolExecutor = ThreadPoolBuilder.builder()
+                            .isCustomPool(true)
+                            .poolThreadSize(ppi.getCoreSize(), ppi.getMaxSize())
+                            .keepAliveTime(ppi.getKeepAliveTime(), TimeUnit.SECONDS)
+                            .workQueue(workQueue)
+                            .threadFactory(tpId)
+                            .rejected(new CustomThreadPoolExecutor.AbortPolicy())
+                            .build();
+                    val.setPool(poolExecutor);
                 } else if (val.getPool() == null) {
-                    val.setPool(CommonThreadPool.getInstance(val.getTpId()));
+                    val.setPool(CommonThreadPool.getInstance(tpId));
                 }
             } catch (Exception ex) {
                 log.error("[Init pool] Failed to initialize thread pool configuration. error message :: {}", ex.getMessage());
-                val.setPool(CommonThreadPool.getInstance(val.getTpId()));
+                val.setPool(CommonThreadPool.getInstance(tpId));
             }
             GlobalThreadPoolManage.register(val.getTpId(), ppi, val);
         });

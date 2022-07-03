@@ -2,6 +2,7 @@ package cn.xldeng.starter.tookit.thread;
 
 
 import cn.xldeng.common.toolkit.Assert;
+import cn.xldeng.starter.wrap.CustomThreadPoolExecutor;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
@@ -71,6 +72,19 @@ public class AbstractBuildThreadPoolTemplate {
         return fastThreadPoolExecutor;
     }
 
+    public static CustomThreadPoolExecutor buildCustomPool(ThreadPoolInitParam initParam) {
+        Assert.notNull(initParam);
+        return new CustomThreadPoolExecutor(
+                initParam.getCorePoolNum(),
+                initParam.getMaxPoolNum(),
+                initParam.getKeepAliveTime(),
+                initParam.getTimeUnit()
+                , initParam.getWorkQueue(),
+                initParam.getThreadFactory(),
+                initParam.getRejectedExecutionHandler()
+        );
+    }
+
     @Data
     @Accessors(chain = true)
     public static class ThreadPoolInitParam {
@@ -116,8 +130,8 @@ public class AbstractBuildThreadPoolTemplate {
 
         public ThreadPoolInitParam(String threadNamePrefix, boolean isDaemon) {
             this.threadFactory = new ThreadFactoryBuilder()
-                    .setNamePrefix(threadNamePrefix + "-")
-                    .setDaemon(isDaemon)
+                    .prefix(threadNamePrefix + "-")
+                    .daemon(isDaemon)
                     .build();
         }
     }
