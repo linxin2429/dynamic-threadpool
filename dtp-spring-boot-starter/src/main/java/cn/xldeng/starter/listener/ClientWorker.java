@@ -109,7 +109,10 @@ public class ClientWorker {
 
             List<String> changedTpIds = checkUpdateDataIds(queryCacheDataList);
             if (!CollectionUtils.isEmpty(changedTpIds)) {
-                log.info("[dynamic threadPool] tpIds changed :: {}", changedTpIds);
+                /*
+                 * 考虑是否加入日志
+                 * log.info("[dynamic threadPool] tpIds changed :: {}", changedTpIds);
+                 */
                 for (String each : changedTpIds) {
                     String[] keys = StringUtils.split(each, Constants.GROUP_KEY_DELIMITER);
                     String namespace = keys[0];
@@ -121,7 +124,10 @@ public class ClientWorker {
                         String poolContent = ContentUtil.getPoolContent(JSON.parseObject(content, PoolParameter.class));
                         cacheData.setContent(poolContent);
                         cacheDataList.add(cacheData);
-                        log.info("[data-received] namespace :: {}, itemId :: {}, tpId :: {}, md5 :: {}", namespace, itemId, tpId, cacheData.getMd5());
+                        /*
+                         * 考虑是否加入日志
+                         * log.info("[data-received] namespace :: {}, itemId :: {}, tpId :: {}, md5 :: {}", namespace, itemId, tpId, cacheData.getMd5());
+                         */
                     } catch (Exception ex) {
                         //ignore
                     }

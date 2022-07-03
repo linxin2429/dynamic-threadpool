@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class CommonThreadPool {
     public static ThreadPoolExecutor getInstance(String threadPoolId) {
         return ThreadPoolBuilder.builder()
+                .isCustomPool(true)
                 .threadFactory(threadPoolId)
                 .poolThreadSize(3, 5)
                 .keepAliveTime(10000L, TimeUnit.SECONDS)
