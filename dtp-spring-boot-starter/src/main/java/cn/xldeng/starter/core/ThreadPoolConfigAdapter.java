@@ -5,6 +5,7 @@ import cn.xldeng.starter.tookit.thread.QueueTypeEnum;
 import cn.xldeng.starter.tookit.thread.ThreadPoolBuilder;
 import cn.xldeng.starter.wrap.DynamicThreadPoolWrap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
 import javax.annotation.PostConstruct;
@@ -34,7 +35,7 @@ public class ThreadPoolConfigAdapter extends ConfigAdapter {
             .build();
 
 
-    @Order(1025)
+    @Order(Ordered.LOWEST_PRECEDENCE - 2048)
     @PostConstruct
     public void subscribeConfig() {
         Map<String, DynamicThreadPoolWrap> executorMap = ApplicationContextHolder.getBeansOfType(DynamicThreadPoolWrap.class);

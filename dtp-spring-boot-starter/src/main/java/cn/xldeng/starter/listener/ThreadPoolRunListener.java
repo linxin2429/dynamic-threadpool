@@ -17,6 +17,7 @@ import cn.xldeng.starter.wrap.CustomThreadPoolExecutor;
 import cn.xldeng.starter.wrap.DynamicThreadPoolWrap;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
 import javax.annotation.PostConstruct;
@@ -45,7 +46,7 @@ public class ThreadPoolRunListener {
         this.dynamicThreadPoolProperties = properties;
     }
 
-    @Order(1024)
+    @Order(Ordered.LOWEST_PRECEDENCE - 1024)
     @PostConstruct
     public void run() {
         DynamicThreadPoolBanner.printBanner(dynamicThreadPoolProperties.isBanner());

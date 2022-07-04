@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.PostConstruct;
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -47,7 +46,7 @@ public class ThreadPoolConfig {
     //    return new DynamicThreadPoolWrap(customPoolPrefix);
     //}
 
-    @PostConstruct
+    //@PostConstruct
     @SuppressWarnings("all")
     public void testExecutTask() {
         log.info("测试线程池运行时状态接口, 30s 后开始触发拒绝策略...");
