@@ -68,15 +68,13 @@ public enum RejectedTypeEnum {
                 .map(each -> each.rejectedHandler)
                 .findFirst();
 
-        RejectedExecutionHandler resultRejected = rejectedTypeEnum.orElseGet(() -> {
+        return rejectedTypeEnum.orElseGet(() -> {
             Collection<CustomRejectedExceptionHandler> customRejectedExceptionHandlers = DynamicTpServiceLoader.getSingeltonServiceInstances(CustomRejectedExceptionHandler.class);
             Optional<RejectedExecutionHandler> customRejected = customRejectedExceptionHandlers.stream()
-                    .map(CustomRejectedExceptionHandler::generateRejected)
                     .filter(each -> Objects.equals(type, each.getType()))
-                    .map(CustomRejectedExceptionHandler.RejectedExceptionHandlerWrap::getRejectedExecutionHandler)
+                    .map(CustomRejectedExceptionHandler::generateRejected)
                     .findFirst();
             return customRejected.orElse(ABORT_POLICY.rejectedHandler);
         });
-        return resultRejected;
     }
 }

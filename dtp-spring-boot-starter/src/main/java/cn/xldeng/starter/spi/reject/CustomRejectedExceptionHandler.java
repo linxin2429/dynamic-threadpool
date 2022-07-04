@@ -1,9 +1,5 @@
 package cn.xldeng.starter.spi.reject;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.concurrent.RejectedExecutionHandler;
 
 /**
@@ -15,18 +11,18 @@ import java.util.concurrent.RejectedExecutionHandler;
 public interface CustomRejectedExceptionHandler {
 
     /**
+     * 获取类型
+     *
+     * @return {@link Integer}
+     */
+    Integer getType();
+
+    /**
      * 生成拒绝策略
      *
-     * @return {@link RejectedExceptionHandlerWrap}
+     * @return {@link RejectedExecutionHandler}
      */
-    RejectedExceptionHandlerWrap generateRejected();
+    RejectedExecutionHandler generateRejected();
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    class RejectedExceptionHandlerWrap {
-        private Integer type;
 
-        private RejectedExecutionHandler rejectedExecutionHandler;
-    }
 }
