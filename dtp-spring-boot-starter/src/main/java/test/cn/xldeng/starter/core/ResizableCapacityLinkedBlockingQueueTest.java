@@ -1,6 +1,6 @@
 package test.cn.xldeng.starter.core;
 
-import cn.xldeng.starter.core.ResizableCapacityLinkedBlockingQueue;
+import cn.xldeng.starter.tookit.thread.ResizableCapacityLinkedBlockingQueue;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 

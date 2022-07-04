@@ -1,7 +1,7 @@
 package cn.xldeng.starter.handler;
 
-import cn.xldeng.starter.core.ResizableCapacityLinkedBlockingQueue;
 import cn.xldeng.starter.tookit.thread.QueueTypeEnum;
+import cn.xldeng.starter.tookit.thread.ResizableCapacityLinkedBlockingQueue;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Objects;

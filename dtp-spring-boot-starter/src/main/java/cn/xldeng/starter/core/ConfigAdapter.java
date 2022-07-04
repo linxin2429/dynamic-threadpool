@@ -1,6 +1,4 @@
-package cn.xldeng.starter.adapter;
-
-import cn.xldeng.starter.core.ThreadPoolDynamicRefresh;
+package cn.xldeng.starter.core;
 
 /**
  * @program: threadpool

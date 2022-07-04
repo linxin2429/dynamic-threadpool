@@ -1,4 +1,4 @@
-package cn.xldeng.starter.core;
+package cn.xldeng.starter.tookit.thread;
 
 import cn.hutool.core.util.ReflectUtil;
 import lombok.extern.slf4j.Slf4j;

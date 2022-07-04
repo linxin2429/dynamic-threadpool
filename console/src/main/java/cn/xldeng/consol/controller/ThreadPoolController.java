@@ -22,22 +22,22 @@ import javax.annotation.Resource;
  * @create: 2022-06-30 17:21
  */
 @RestController
-@RequestMapping(Constants.CONFIG_CONTROLLER_PATH)
+@RequestMapping(Constants.CONFIG_CONTROLLER_PATH + "/thread")
 public class ThreadPoolController {
     @Resource
     private ThreadPoolService threadPoolService;
 
-    @PostMapping("/thread/pool/query/page")
+    @PostMapping("/pool/query/page")
     public Result<IPage<ThreadPoolRespDTO>> queryNameSpacePage(@RequestBody ThreadPoolQueryReqDTO reqDTO) {
         return Results.success(threadPoolService.queryThreadPoolPage(reqDTO));
     }
 
-    @PostMapping("/thread/pool/query")
+    @PostMapping("/pool/query")
     public Result<ThreadPoolRespDTO> queryNameSpace(@RequestBody ThreadPoolQueryReqDTO reqDTO) {
         return Results.success(threadPoolService.getThreadPool(reqDTO));
     }
 
-    @PostMapping("/thread/pool/save_or_update")
+    @PostMapping("/pool/save_or_update")
     public Result saveOrUpdateThreadPoolConfig(@RequestBody ThreadPoolSaveOrUpdateReqDTO reqDTO) {
         threadPoolService.saveOrUpdateThreadPoolConfig(reqDTO);
         return Results.success();

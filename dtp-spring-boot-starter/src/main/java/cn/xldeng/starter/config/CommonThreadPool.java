@@ -1,4 +1,4 @@
-package cn.xldeng.starter.common;
+package cn.xldeng.starter.config;
 
 import cn.xldeng.starter.tookit.thread.QueueTypeEnum;
 import cn.xldeng.starter.tookit.thread.RejectedPolicies;

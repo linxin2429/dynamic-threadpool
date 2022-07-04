@@ -1,6 +1,6 @@
 package cn.xldeng.starter.wrap;
 
-import cn.xldeng.starter.common.CommonThreadPool;
+import cn.xldeng.starter.config.CommonThreadPool;
 import lombok.Data;
 
 import java.util.concurrent.Callable;
@@ -24,7 +24,7 @@ public class DynamicThreadPoolWrap {
     private ThreadPoolExecutor pool;
 
     /**
-     * 首选服务端线程池, 为空使用默认线程池 {@link cn.xldeng.starter.common.CommonThreadPool#getInstance(String)}
+     * 首选服务端线程池, 为空使用默认线程池 {@link CommonThreadPool#getInstance(String)}
      *
      * @param threadPoolId threadPoolId
      */

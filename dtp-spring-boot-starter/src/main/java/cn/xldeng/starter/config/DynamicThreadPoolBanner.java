@@ -1,4 +1,4 @@
-package cn.xldeng.starter.banner;
+package cn.xldeng.starter.config;
 
 import org.springframework.boot.ansi.AnsiColor;
 import org.springframework.boot.ansi.AnsiOutput;

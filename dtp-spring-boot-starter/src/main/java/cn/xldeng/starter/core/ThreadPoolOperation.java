@@ -1,7 +1,6 @@
-package cn.xldeng.starter.operation;
+package cn.xldeng.starter.core;
 
 import cn.xldeng.starter.config.DynamicThreadPoolProperties;
-import cn.xldeng.starter.core.ConfigService;
 import cn.xldeng.starter.listener.Listener;
 import org.springframework.beans.factory.annotation.Autowired;
 

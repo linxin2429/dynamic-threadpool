@@ -1,6 +1,5 @@
 package cn.xldeng.starter.tookit.thread;
 
-import cn.xldeng.starter.core.ResizableCapacityLinkedBlockingQueue;
 import cn.xldeng.starter.spi.DynamicTpServiceLoader;
 import cn.xldeng.starter.spi.queue.CustomBlockingQueue;
 
