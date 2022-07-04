@@ -62,6 +62,10 @@ public enum RejectedTypeEnum {
         this.rejectedHandler = rejectedHandler;
     }
 
+    static {
+        DynamicTpServiceLoader.register(CustomRejectedExceptionHandler.class);
+    }
+
     public static RejectedExecutionHandler createPolicy(Integer type) {
         Optional<RejectedExecutionHandler> rejectedTypeEnum = Stream.of(RejectedTypeEnum.values())
                 .filter(each -> Objects.equals(type, each.type))

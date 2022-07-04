@@ -10,8 +10,8 @@ import cn.xldeng.starter.config.DynamicThreadPoolProperties;
 import cn.xldeng.starter.core.GlobalThreadPoolManage;
 import cn.xldeng.starter.remote.HttpAgent;
 import cn.xldeng.starter.remote.ServerHttpAgent;
-import cn.xldeng.starter.tookit.BlockingQueueUtil;
 import cn.xldeng.starter.tookit.HttpClientUtil;
+import cn.xldeng.starter.tookit.thread.QueueTypeEnum;
 import cn.xldeng.starter.tookit.thread.ThreadPoolBuilder;
 import cn.xldeng.starter.wrap.CustomThreadPoolExecutor;
 import cn.xldeng.starter.wrap.DynamicThreadPoolWrap;
@@ -65,7 +65,7 @@ public class ThreadPoolRunListener {
                 result = httpAgent.httpGet(Constants.CONFIG_CONTROLLER_PATH, null, queryStrMap, 3000L);
                 if (result.isSuccess() && result.getData() != null && (ppi = JSON.toJavaObject((JSON) result.getData(), PoolParameterInfo.class)) != null) {
                     TimeUnit unit = TimeUnit.SECONDS;
-                    BlockingQueue<Runnable> workQueue = BlockingQueueUtil.createBlockingQueue(ppi.getQueueType(), ppi.getCapacity());
+                    BlockingQueue<Runnable> workQueue = QueueTypeEnum.createBlockingQueue(ppi.getQueueType(), ppi.getCapacity());
                     ThreadPoolExecutor poolExecutor = ThreadPoolBuilder.builder()
                             .isCustomPool(true)
                             .poolThreadSize(ppi.getCoreSize(), ppi.getMaxSize())

@@ -1,6 +1,6 @@
 package cn.xldeng.starter.common;
 
-import cn.xldeng.common.enums.QueueTypeEnum;
+import cn.xldeng.starter.tookit.thread.QueueTypeEnum;
 import cn.xldeng.starter.tookit.thread.RejectedPolicies;
 import cn.xldeng.starter.tookit.thread.ThreadPoolBuilder;
 

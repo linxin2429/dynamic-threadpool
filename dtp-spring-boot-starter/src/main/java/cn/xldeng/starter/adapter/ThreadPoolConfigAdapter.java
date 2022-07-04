@@ -1,8 +1,8 @@
 package cn.xldeng.starter.adapter;
 
 import cn.xldeng.common.config.ApplicationContextHolder;
-import cn.xldeng.common.enums.QueueTypeEnum;
 import cn.xldeng.starter.operation.ThreadPoolOperation;
+import cn.xldeng.starter.tookit.thread.QueueTypeEnum;
 import cn.xldeng.starter.tookit.thread.ThreadPoolBuilder;
 import cn.xldeng.starter.wrap.DynamicThreadPoolWrap;
 import org.springframework.beans.factory.annotation.Autowired;

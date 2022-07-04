@@ -1,10 +1,8 @@
 package cn.xldeng.starter.tookit.thread;
 
 
-import cn.xldeng.common.enums.QueueTypeEnum;
 import cn.xldeng.common.toolkit.Assert;
 import cn.xldeng.starter.builder.Builder;
-import cn.xldeng.starter.tookit.BlockingQueueUtil;
 
 import java.math.BigDecimal;
 import java.util.concurrent.*;
@@ -212,7 +210,7 @@ public class ThreadPoolBuilder implements Builder<ThreadPoolExecutor> {
                 .setTimeUnit(builder.timeUnit);
         if (!builder.isFastPool) {
             if (builder.workQueue == null) {
-                builder.workQueue = BlockingQueueUtil.createBlockingQueue(builder.queueType.type, builder.capacity);
+                builder.workQueue = QueueTypeEnum.createBlockingQueue(builder.queueType.type, builder.capacity);
             }
             initParam.setWorkQueue(builder.workQueue);
         }

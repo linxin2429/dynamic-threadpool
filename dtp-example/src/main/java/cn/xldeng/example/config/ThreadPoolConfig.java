@@ -1,8 +1,7 @@
 package cn.xldeng.example.config;
 
-import cn.xldeng.common.enums.QueueTypeEnum;
 import cn.xldeng.starter.core.GlobalThreadPoolManage;
-import cn.xldeng.starter.tookit.BlockingQueueUtil;
+import cn.xldeng.starter.tookit.thread.QueueTypeEnum;
 import cn.xldeng.starter.tookit.thread.ThreadPoolBuilder;
 import cn.xldeng.starter.wrap.CustomThreadPoolExecutor;
 import cn.xldeng.starter.wrap.DynamicThreadPoolWrap;
@@ -56,7 +55,7 @@ public class ThreadPoolConfig {
                 .isCustomPool(true)
                 .poolThreadSize(5, 10)
                 .keepAliveTime(9999, TimeUnit.SECONDS)
-                .workQueue(BlockingQueueUtil.createBlockingQueue(QueueTypeEnum.RESIZABLE_LINKED_BLOCKING_QUEUE.type, 1))
+                .workQueue(QueueTypeEnum.createBlockingQueue(QueueTypeEnum.RESIZABLE_LINKED_BLOCKING_QUEUE.type, 1))
                 .threadFactory(customPoolPrefix)
                 .rejected(new CustomThreadPoolExecutor.AbortPolicy())
                 .build();
