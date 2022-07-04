@@ -5,7 +5,6 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -22,7 +21,6 @@ import java.util.concurrent.TimeUnit;
  * @create: 2022-06-27 07:32
  */
 @Slf4j
-@Configuration
 public class OkHttpClientConfig {
     @Bean
     public OkHttpClient okHttpClient() {

@@ -1,3 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=cn.xldeng.common.config.CommonConfiguration,\
-  cn.xldeng.starter.config.OkHttpClientConfig,\
-  cn.xldeng.starter.config.DynamicThreadPoolAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=cn.xldeng.starter.config.DynamicThreadPoolAutoConfiguration

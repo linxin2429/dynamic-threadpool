@@ -1,13 +1,17 @@
 package cn.xldeng.starter.config;
 
+import cn.xldeng.common.config.CommonConfiguration;
 import cn.xldeng.starter.adapter.ThreadPoolConfigAdapter;
+import cn.xldeng.starter.controller.PoolRunStateController;
 import cn.xldeng.starter.core.ConfigService;
 import cn.xldeng.starter.core.ThreadPoolConfigService;
+import cn.xldeng.starter.enable.DynamicThreadPoolMarkerConfiguration;
 import cn.xldeng.starter.listener.ThreadPoolRunListener;
 import cn.xldeng.starter.operation.ThreadPoolOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +26,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @AllArgsConstructor
 @EnableConfigurationProperties(DynamicThreadPoolProperties.class)
-@ConditionalOnProperty(prefix = DynamicThreadPoolProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnBean(DynamicThreadPoolMarkerConfiguration.Marker.class)
+@ImportAutoConfiguration({OkHttpClientConfig.class, CommonConfiguration.class})
 public class DynamicThreadPoolAutoConfiguration {
 
     private final DynamicThreadPoolProperties poolProperties;
@@ -45,5 +50,10 @@ public class DynamicThreadPoolAutoConfiguration {
     @Bean
     public ThreadPoolOperation threadPoolOperation() {
         return new ThreadPoolOperation(poolProperties);
+    }
+
+    @Bean
+    public PoolRunStateController poolRunStateController() {
+        return new PoolRunStateController();
     }
 }

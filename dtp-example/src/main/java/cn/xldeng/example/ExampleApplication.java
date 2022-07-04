@@ -1,5 +1,6 @@
 package cn.xldeng.example;
 
+import cn.xldeng.starter.enable.EnableDynamicThreadPool;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,7 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author: dengxinlin
  * @create: 2022-06-28 17:49
  */
-@SpringBootApplication(scanBasePackages = "cn.xldeng")
+@SpringBootApplication
+@EnableDynamicThreadPool
 public class ExampleApplication {
     public static void main(String[] args) {
         SpringApplication.run(ExampleApplication.class, args);

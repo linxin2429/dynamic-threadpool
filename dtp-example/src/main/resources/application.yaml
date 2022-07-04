@@ -1,7 +1,6 @@
 spring:
   dynamic:
     thread-pool:
-      enabled: true
       serverAddr: http://localhost:6691
       itemId: dynamic-threadpool-example
       banner: true
