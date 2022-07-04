@@ -1,7 +1,6 @@
-package cn.xldeng.starter.handler;
+package cn.xldeng.starter.core;
 
 import cn.xldeng.common.model.PoolRunStateInfo;
-import cn.xldeng.starter.core.GlobalThreadPoolManage;
 import cn.xldeng.starter.wrap.CustomThreadPoolExecutor;
 import cn.xldeng.starter.wrap.DynamicThreadPoolWrap;
 import org.springframework.stereotype.Component;

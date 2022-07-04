@@ -4,7 +4,7 @@ package cn.xldeng.starter.controller;
 import cn.xldeng.common.model.PoolRunStateInfo;
 import cn.xldeng.common.web.base.Result;
 import cn.xldeng.common.web.base.Results;
-import cn.xldeng.starter.handler.ThreadPoolRunStateHandler;
+import cn.xldeng.starter.core.ThreadPoolRunStateHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;

@@ -14,6 +14,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 @Slf4j
 public class ResizableCapacityLinkedBlockingQueue extends LinkedBlockingQueue {
 
+    private static final long serialVersionUID = -7799572062809716903L;
+
     public ResizableCapacityLinkedBlockingQueue(int capacity) {
         super(capacity);
     }

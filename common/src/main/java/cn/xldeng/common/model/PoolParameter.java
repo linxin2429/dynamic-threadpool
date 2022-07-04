@@ -64,6 +64,13 @@ public interface PoolParameter {
     Integer getKeepAliveTime();
 
     /**
+     * rejectedType
+     *
+     * @return
+     */
+    Integer getRejectedType();
+
+    /**
      * isAlarm
      *
      * @return
